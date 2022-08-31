@@ -4,22 +4,22 @@ const app = require("./App");
 
 // MongoDB 랑 연결 후, config.env 채우고 여기 주석 풀기
 
-// dotenv.config({ path: './config.env' });
+dotenv.config({ path: "./config.env" });
 
-// const DB = process.env.DATABASE;
+const DB = process.env.DATABASE;
 
-// mongoose
-//   .connect(DB, {
-//     useNewUrlParser: true,
-//     useCreateIndex: true,
-//     useFindAndModify: false,
-//   })
-//   .then((con) => {
-//     console.log(con.connections);
-//     console.log('DB connection successful!');
-//   });
+mongoose
+  .connect(DB, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false
+  })
+  .then((con) => {
+    console.log(con.connections);
+    console.log("DB connection successful!");
+  });
 
-// const port = process.env.PORT || 3000;
-// app.listen(port, () => {
-//   console.log(`App running on port ${port}`);
-// });
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`App running on port ${port}`);
+});
