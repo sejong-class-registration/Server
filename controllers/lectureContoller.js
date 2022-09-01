@@ -2,8 +2,7 @@ const Lecture = require('../models/lectureModel');
 
 exports.getAllLectures = async (req, res) => {
   try {
-    const lectures = await Lecture.find();
-
+    const lectures = await Lecture.find(req.query);
     res.status(200).json({
       status: 'success',
       results: lectures.length,
@@ -16,3 +15,4 @@ exports.getAllLectures = async (req, res) => {
     });
   }
 }
+
