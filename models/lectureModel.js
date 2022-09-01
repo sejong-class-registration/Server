@@ -35,9 +35,9 @@ const lectureSchema = new mongoose.Schema(
         required: [true, '학년이 필요합니다'],
         default: 0
     },
-    department: { //주관학과
+    department: { //개설학과전공
         type: String,
-        required: [true, '주간학과가 필요합니다'],
+        required: [true, '개설학과가 필요합니다'],
         minlength: 2,
         maxlength: 50
       }, 
