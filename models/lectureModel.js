@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const slugify = require('slugify');
 // const validator = require('validator');
 
 const lectureSchema = new mongoose.Schema(
@@ -68,4 +67,4 @@ const lectureSchema = new mongoose.Schema(
   });
 const Lecture = mongoose.model('Lecture', lectureSchema);
 
-module.exports = {Lecture};
+module.exports = Lecture;
