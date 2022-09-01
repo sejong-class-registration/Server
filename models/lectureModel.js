@@ -11,7 +11,7 @@ const lectureSchema = new mongoose.Schema(
       },
     lecture_id: {
         type: String,
-        required: [true, '학수번호기 필요합니다'],
+        required: [true, '학수번호가 필요합니다'],
         minlength: 2,
         maxlength: 50
       },
@@ -20,16 +20,20 @@ const lectureSchema = new mongoose.Schema(
         required: [true, '분반이 필요합니다'],
         default: 0 
       },
+    classification:{//이수구분
+        type: String,
+        required:  [true, '이수구분이 필요합니다'],
+      },
     english: {
         type: Boolean,
         default:false
       },
     credit: {//학점
-        type: Number,
+        type: String,
         required: [true, '학점이 필요합니다'],
         default: 0
       },
-    lecture_grade: {
+    lecture_grade: {//학년
         type: Number,
         required: [true, '학년이 필요합니다'],
         default: 0
@@ -48,20 +52,21 @@ const lectureSchema = new mongoose.Schema(
       },
     room: {
         type: String,
-        required: [true, '강의실이름이 필요합니다'],
-        minlength: 2,
         maxlength: 50
       },
     recommend: {
         type: Boolean,
         default:false
       },
-    day_and_time: {      },
-    taken_lectures: {
-        type: String
-
+    day_and_time: {
+      type: String,
       },
-    notice:{
+    credit_exchnage:{//학점교류가능여부
+      type: String,
+      default: 'N'
+
+    },
+    notice:{//수강대상및유의사항
         type: String
     }
   });
