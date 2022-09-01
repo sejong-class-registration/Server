@@ -1,13 +1,33 @@
-const Xlsx = require("xlsx");
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const app = require("./App");
 const Lecture = require("./models/lectureModel");
+
+// MongoDB 랑 연결 후, config.env 채우고 여기 주석 풀기
+
+dotenv.config({ path: "./config.env" });
+
+const DB = process.env.DATABASE;
+
+const db = mongoose
+  .connect(DB, {
+    useNewUrlParser: true,
+  })
+  .then((con) => {
+    console.log(con.connections);
+    console.log("DB connection successful!");
+  });
+
+const Xlsx = require("xlsx");
 const excelFile = Xlsx.readFile("./public/node_excel.xlsx");
 const sheetName = excelFile.SheetNames[0];
 const firstSheet = excelFile.Sheets[sheetName];
 const jsonData = Xlsx.utils.sheet_to_json(firstSheet, { defval: "" });
 
-//console.log(jsonData);
+// console.log(jsonData);
 
- //const data = JSON.stringify(jsonData);
+// const data = JSON.stringify(jsonData);
+// console.log(data);
 
 jsonData.map((data) => {
   const newLecture = new Lecture({
@@ -26,5 +46,9 @@ jsonData.map((data) => {
     notice:data.__EMPTY_17
   });
   console.log(newLecture);
-  newLecture.save();
+  try{
+    newLecture.save();
+  } catch (err) {
+    console.log(err);
+  }
 });
