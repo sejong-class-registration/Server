@@ -41,8 +41,31 @@ exports.addLectureOnSchedule = async (req, res) => {
     const currentLecture = await Lecture.findById(req.params.id);
     const currentSchedule = await Schedule.findOne({userId,scheduleId});
     const scheduleArray = currentSchedule.schedule;
+    let currentLectureStartTime = null;
+    let currentLectureEndTime = null;
+    let currentLectureDay = null;
+
+    if(currentLecture.day_and_time.length === 12){
+      currentLectureStartTime = currentLecture.day_and_time.slice(1,6);
+      currentLectureEndTime = currentLecture.day_and_time.slice(7,12);
+      currentLectureDay = [currentLecture.day_and_time[0]];
+    }
+
+    console.log(currentLectureStartTime,currentLectureEndTime,currentLectureDay);
+
+    scheduleArray.forEach((lecture) => {
+      let startTime = null;
+      let endTime = null;
+      let day = null;
+      if(lecture.day_and_time.length === 12){
+        startTime = lecture.day_and_time.slice(1,6);
+        endTime = lecture.day_and_time.slice(7,12);
+        day = [lecture.day_and_time[0]];
+      }
+      console.log(startTime, endTime, day);
+    })
+
     scheduleArray.unshift(currentLecture);
-    console.log(scheduleArray);
     const newSchedule = await Schedule.create({
       userId,
       scheduleId,
