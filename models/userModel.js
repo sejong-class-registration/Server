@@ -39,20 +39,6 @@ const userSchema = new mongoose.Schema(
     },
     taken_lectures: {
       type: String,
-
-    },
-    schedule: {
-      type:
-        [{
-          total: Number,
-          scheduleArray: [
-            {
-              id: Number,
-              name: String
-            }
-          ]
-        }],
-      required: [true, '시간표가 필요합니다'],
     }
   });
 const User = mongoose.model('User', userSchema);
