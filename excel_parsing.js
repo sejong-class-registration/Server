@@ -29,26 +29,30 @@ const jsonData = Xlsx.utils.sheet_to_json(firstSheet, { defval: "" });
 // const data = JSON.stringify(jsonData);
 // console.log(data);
 
-jsonData.map((data) => {
-  const newLecture = new Lecture({
-    name: data.__EMPTY_3,
-    lecture_id: data.__EMPTY_1,
-    distrib: data.__EMPTY_2,
-    classification: data.__EMPTY_5, 
-    english: data.__EMPTY_4,
-    credit: data.__EMPTY_7,
-    lecture_grade: data.__EMPTY_8,
-    department: data.__EMPTY,
-    prof_name: data.__EMPTY_11,
-    room: data.__EMPTY_13,
-    day_and_time:data.__EMPTY_12,
-    credit_exchange:data.__EMPTY_16,
-    notice:data.__EMPTY_17
-  });
-  console.log(newLecture);
-  try{
-    newLecture.save();
-  } catch (err) {
-    console.log(err);
+jsonData.map((data, index) => {
+  if (index < 3) {
+    console.log('empty');
+  } else {
+    const newLecture = new Lecture({
+      name: data.__EMPTY_3,
+      lectureId: data.__EMPTY_1,
+      distrib: data.__EMPTY_2,
+      classification: data.__EMPTY_5,
+      english: data.__EMPTY_4,
+      credit: data.__EMPTY_7,
+      lectureGrade: data.__EMPTY_8,
+      department: data.__EMPTY,
+      profName: data.__EMPTY_11,
+      room: data.__EMPTY_13,
+      dayAndTime: data.__EMPTY_12,
+      creditExchange: data.__EMPTY_16,
+      notice: data.__EMPTY_17
+    });
+    console.log(newLecture);
+    try {
+      newLecture.save();
+    } catch (err) {
+      console.log(err);
+    }
   }
 });
