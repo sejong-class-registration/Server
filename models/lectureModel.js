@@ -38,13 +38,9 @@ const lectureSchema = new mongoose.Schema(
     },
     lectureGrade: {//학년
       type: String,
-      required: [true, '학년이 필요합니다'],
-      default: 0
     },
     department: { //개설학과전공
       type: String,
-      required: [true, '개설학과가 필요합니다'],
-      minlength: 2,
       maxlength: 50
     },
     profName: {
@@ -66,7 +62,11 @@ const lectureSchema = new mongoose.Schema(
       type: String,
       default: "미정",
     },
+<<<<<<< HEAD
     creditExchnage: {//학점교류가능여부
+=======
+    creditExchange: {//학점교류가능여부
+>>>>>>> f7053425d8c5659dae365ba3f66a29fa922aa209
       type: String,
       default: 'N'
 
