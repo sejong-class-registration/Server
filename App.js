@@ -12,11 +12,10 @@ const AppError = require('./utils/AppError');
 
 const userRouter = require('./routes/userRoutes');
 
+const app = express();
+
 app.use(cors());
 app.options('*', cors());
-
-
-const app = express();
 
 app.use(express.json());
 
