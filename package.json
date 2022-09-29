@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon server.js",
     "start:prod": "set NODE_ENV=production&&nodemon server.js",
-    "debug": "ndb server.js"
+    "debug": "ndb server.js",
+    "heroku-postbuild": "nex webpack"
   },
   "author": "Kim Chan Kyu",
   "license": "ISC",
