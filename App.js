@@ -13,7 +13,7 @@ const scheduleRouter = require('./routes/scheduleRoute');
 
 const userRouter = require('./routes/userRoutes');
 
-app.use(cors());
+// app.use(cors());
 // app.options('*', cors());
 
 
