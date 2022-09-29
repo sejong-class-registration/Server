@@ -14,8 +14,8 @@ const db = mongoose
     useNewUrlParser: true,
   })
   .then((con) => {
-    console.log(con.connections);
-    console.log("DB connection successful!");
+    // console.log(con.connections);
+    // console.log("DB connection successful!");
   });
 
 const Xlsx = require("xlsx");
@@ -45,10 +45,10 @@ jsonData.map((data) => {
     credit_exchange:data.__EMPTY_16,
     notice:data.__EMPTY_17
   });
-  console.log(newLecture);
+  // console.log(newLecture);
   try{
     newLecture.save();
   } catch (err) {
-    console.log(err);
+    // console.log(err);
   }
 });
