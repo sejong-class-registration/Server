@@ -14,7 +14,7 @@ const scheduleRouter = require('./routes/scheduleRoute');
 const userRouter = require('./routes/userRoutes');
 
 app.use(cors());
-app.options('*', cors());
+// app.options('*', cors());
 
 
 const app = express();
