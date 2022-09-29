@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "sejong-class-registration helper",
   "main": "App.js",
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "start": "nodemon server.js",
     "start:prod": "set NODE_ENV=production&&nodemon server.js",
