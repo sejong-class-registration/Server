@@ -7,3 +7,4 @@ router.route('/').get(getUserSchedules).post(postUserSchedules);
 router.route('/:id').put(addLectureOnSchedule);
 
 module.exports = router;
+

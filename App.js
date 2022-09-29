@@ -2,9 +2,14 @@ const express = require("express");
 const compression = require("compression");
 const cors = require('cors');
 const lectureRouter = require('./routes/lectureRoute');
+
+const scheduleRouter = require('./routes/scheduleRoute');
+
 const AppError = require('./utils/AppError');
+
 const scheduleRouter = require('./routes/scheduleRoute');
 // const userRouter = require('./routes/userRoutes');
+
 
 const userRouter = require('./routes/userRoutes');
 
