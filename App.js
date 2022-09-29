@@ -1,8 +1,13 @@
 const express = require("express");
 const lectureRouter = require('./routes/lectureRoute');
+
+const scheduleRouter = require('./routes/scheduleRoute');
+
 const AppError = require('./utils/AppError');
+
 const scheduleRouter = require('./routes/scheduleRoute');
 // const userRouter = require('./routes/userRoutes');
+
 
 const userRouter = require('./routes/userRoutes');
 
