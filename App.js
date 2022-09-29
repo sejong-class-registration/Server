@@ -7,14 +7,13 @@ const scheduleRouter = require('./routes/scheduleRoute');
 
 const AppError = require('./utils/AppError');
 
-const scheduleRouter = require('./routes/scheduleRoute');
 // const userRouter = require('./routes/userRoutes');
 
 
 const userRouter = require('./routes/userRoutes');
 
-// app.use(cors());
-// app.options('*', cors());
+app.use(cors());
+app.options('*', cors());
 
 
 const app = express();
