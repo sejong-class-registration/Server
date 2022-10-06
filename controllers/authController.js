@@ -50,7 +50,7 @@ const signUp = async (req, res, next) => {
 
 ////signin
 const createToken = (userId) => {
-  const token = jwt.sign({ _id: userId.toString() }, process.env.SECRETKEY); 
+  const token = jwt.sign({ _id: userId.toString() }, "my-ultra-secure"); 
   return token;
 };
 
