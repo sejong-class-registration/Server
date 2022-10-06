@@ -14,8 +14,8 @@ const db = mongoose
     useNewUrlParser: true,
   })
   .then((con) => {
-    console.log(con.connections);
-    console.log("DB connection successful!");
+    // console.log(con.connections);
+    // console.log("DB connection successful!");
   });
 
 const Xlsx = require("xlsx");
@@ -31,7 +31,7 @@ const jsonData = Xlsx.utils.sheet_to_json(firstSheet, { defval: "" });
 
 jsonData.map((data, index) => {
   if (index < 3) {
-    console.log('empty');
+    // console.log('empty');
   } else {
     const newLecture = new Lecture({
       name: data.__EMPTY_3,
@@ -48,11 +48,11 @@ jsonData.map((data, index) => {
       creditExchange: data.__EMPTY_16,
       notice: data.__EMPTY_17
     });
-    console.log(newLecture);
+    // console.log(newLecture);
     try {
       newLecture.save();
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   }
 });
