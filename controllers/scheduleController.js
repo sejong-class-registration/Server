@@ -84,22 +84,10 @@ exports.addLectureOnSchedule = async (req, res) => {
 
     let currnetLectureCredit = 0;
 
+    // 기존의 시간표에 있는 모든 강의들과 요일, 시간 계산
     scheduleArray.forEach((lecture) => {
-      // let startTime = null;
-      // let endTime = null;
-      // let day = null;
       let lectureStartTime = 0;
       let lectureEndTime = 0;
-
-      // if (lecture.dayAndTime.length === 12) {
-      //   startTime = lecture.dayAndTime.slice(1, 6);
-      //   endTime = lecture.dayAndTime.slice(7, 12);
-      //   day = [lecture.dayAndTime[0]];
-      // } else if (lecture.dayAndTime.length === 13) {
-      //   startTime = lecture.dayAndTime.slice(2, 7);
-      //   endTime = lecture.dayAndTime.slice(8, 13);
-      //   day = [lecture.dayAndTime[0], lecture.dayAndTime[1]];
-      // }
 
       let { startTime, endTime, day } = extractDayAndTime(
         lecture.dayAndTime.length,
