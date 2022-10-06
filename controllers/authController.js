@@ -62,16 +62,9 @@ const signIn = async (req, res, next) => {
 
     const user = await User.findOne({ studentId });
 
-    if (!user){
-      return res.status(404).json({
-        status: 'error', message:"존재하지 않는 회원입니다"
-      })};
-    const passwordCheck = await bcrypt.compare(password, user.password);
+    if (!user)errorGenerator("존재하지 않는 회원입니다", 404) = await bcrypt.compare(password, user.password);
 
-    if (!passwordCheck){
-      return res.status(404).json({
-        status: 'error', message:"비밀번호가 틀렸습니다"
-      })};
+    if (!passwordCheck)errorGenerator("비밀번호가 틀렸습니다", 301);
 
     const token = createToken(user._id);
     res.status(201).json({ message: "Success", token });
