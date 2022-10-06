@@ -1,12 +1,20 @@
 const Lecture = require('../models/lectureModel');
 
+const sorting = (query, queryString) => {
+  if(queryString.sort){
+    query = query.sort(queryString.sort);
+  }
+  return query;
+}
+
 exports.getAllLectures = async (req, res) => {
   try {
-    const lectures = await Lecture.find(req.query);
+    const query = await sorting(Lecture.find(req.query), req.query);
+
     res.status(200).json({
       status: 'success',
-      results: lectures.length,
-      data: { lectures }
+      results: query.length,
+      data: { query }
     })
   } catch (err) {
     res.status(404).json({
@@ -15,4 +23,3 @@ exports.getAllLectures = async (req, res) => {
     });
   }
 }
-
