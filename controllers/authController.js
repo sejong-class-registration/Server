@@ -50,9 +50,10 @@ const signUp = async (req, res, next) => {
 
 ////signin
 const createToken = (userId) => {
-  const token = jwt.sign({ _id: userId.toString() }, SECRET_KEY); 
+  const token = jwt.sign({ _id: userId.toString() }, process.env.SECRETKEY); 
   return token;
 };
+
 
 const signIn = async (req, res, next) => {
   try {
@@ -61,11 +62,16 @@ const signIn = async (req, res, next) => {
 
     const user = await User.findOne({ studentId });
 
-    if (!user) errorGenerator("존재하지 않는 회원입니다", 404); 
-
+    if (!user){
+      return res.status(404).json({
+        status: 'error', message:"존재하지 않는 회원입니다"
+      })};
     const passwordCheck = await bcrypt.compare(password, user.password);
 
-    if (!passwordCheck) errorGenerator("비밀번호가 틀렸습니다", 404); 
+    if (!passwordCheck){
+      return res.status(404).json({
+        status: 'error', message:"비밀번호가 틀렸습니다"
+      })};
 
     const token = createToken(user._id);
     res.status(201).json({ message: "Success", token });
@@ -73,5 +79,23 @@ const signIn = async (req, res, next) => {
     next(err);
   }
 };
+/////인증 인가 미들웨어 코드
+/*module.exports = async (req, res, next) => { 
+  try {
+    const token = req.get("Authorization"); 
 
+    const decodedToken = jwt.verify(token, SECRET_KEY); 
+    const { _id } = decodedToken; 
+
+    const user = await User.findOne({ _id }); 
+    if (!user) errorGenerator("Not found User", "404");
+
+    req.user = user; 
+    next(); 
+  } catch (err) {
+    err.message = "Not authenticated"; 
+    err.statsuCode = 401; 
+    next(err);
+  }
+};*/
 module.exports = { signUp, signIn };

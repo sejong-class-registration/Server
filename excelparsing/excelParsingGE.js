@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const app = require("./App");
-const Lecture = require("./models/lectureModel");
+const app = require("../App");
+const Lecture = require("../models/lectureModel");
 
 // MongoDB 랑 연결 후, config.env 채우고 여기 주석 풀기
 
-dotenv.config({ path: "./config.env" });
+dotenv.config({ path: "../config.env" });
 
 const DB = process.env.DATABASE;
 
@@ -19,7 +19,7 @@ const db = mongoose
   });
 
 const Xlsx = require("xlsx");
-const excelFile = Xlsx.readFile("./public/node_excel_GE.xlsx");
+const excelFile = Xlsx.readFile("../public/nodeExcelGE.xlsx");
 const sheetName = excelFile.SheetNames[0];
 const firstSheet = excelFile.Sheets[sheetName];
 const jsonData = Xlsx.utils.sheet_to_json(firstSheet, { defval: "" });

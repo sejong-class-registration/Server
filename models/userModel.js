@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const mongoose = require("mongoose");
 // const validator = require('validator');
 
@@ -86,52 +85,4 @@ userSchema.virtual("year").get(function () {
 });
 
 const User = mongoose.model("User", userSchema);
-=======
-const mongoose = require('mongoose');
-
-
-const userSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: [true, '학생이름이 필요합니다'],
-      minlength: 2,
-      unique: 1
-    },
-    user_id: {
-      type: String,
-      required: [true, '학번이 필요합니다'],
-      minlength: 2,
-      maxlength: 50
-    },
-    password: {
-      type: String,
-      required: [true, '비밀번호가 필요합니다'],
-      maxlength: 50,
-      unique: 1
-    },
-    user_grade: {
-      type: Number,
-      required: [true, '학년이 필요합니다'],
-      default: 0
-    },
-    year_of_admission: {//필요?
-      type: Number,
-      required: [true, '입학년도가 필요합니다'],
-      default: 0
-    },
-    major: {
-      type: String,
-      required: [true, '전공이 필요합니다'],
-      minlength: 2,
-      maxlength: 50,
-    },
-    taken_lectures: {
-      type: String,
-    }
-  });
-const User = mongoose.model('User', userSchema);
->>>>>>> f7053425d8c5659dae365ba3f66a29fa922aa209
-
-
 module.exports = User;
