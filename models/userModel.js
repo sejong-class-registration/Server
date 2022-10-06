@@ -13,7 +13,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "학생이름이 필요합니다"],
     minlength: 2,
-    unique:false,
     default: 0,
   },
   password: {
@@ -40,11 +39,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: 0,
   },
-  totalCredits: {
+  takenTotalCredits: {
     type: String,
     default: 0,
   },
-  majorCredits: {
+  takenMajorCredits: {
     type: String,
     default: 0,
   },
