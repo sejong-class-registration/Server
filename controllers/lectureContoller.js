@@ -14,7 +14,7 @@ exports.getAllLectures = async (req, res) => {
     res.status(200).json({
       status: 'success',
       results: query.length,
-      data: { query }
+      data: { lectures:query }
     })
   } catch (err) {
     res.status(404).json({
