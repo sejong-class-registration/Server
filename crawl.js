@@ -3,9 +3,10 @@ const cheerio = require("cheerio");
 const axios = require("axios");
 
 async function crawling (id,pw){
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
   // private
+  
   await page.setViewport({
     width: 1366,
     height: 768
@@ -67,8 +68,16 @@ async function crawling (id,pw){
       )
       .click();
   });
+  /*setTimeout(async () => {
+    const content = await page.content();
+    const $ = cheerio.load(content);
 
-  return await("page loaded!");
+    const data = $("nobr");
+    data.each((i, el) => {
+      console.log($(el).text());
+    });
+  }, 2000);*/
+  return (1);
 }
 
-module.exports={crawling};
+module.exports=crawling;
