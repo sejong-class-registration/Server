@@ -1,7 +1,7 @@
 const User = require('../models/userModel');
 const bcrypt=require("bcryptjs");
-const jwt=require("jsonwebtoken")
-
+const jwt=require("jsonwebtoken");
+const crawl= require('../crawl');
 
 ////signup
 const createUserData = async(userInput)=>{
@@ -36,7 +36,9 @@ const errorGenerator = (message, statusCode = 500) => {
   };
 const signUp = async (req, res, next) => { 
   try {
-    const { studentId } = req.body; 
+    const { studentId=null, password=null } = req.body; 
+    const check=crawl(studentId,password);
+    if(!check) errorGenerator("학교 학생이 아닙니다", 401);
     const user = await User.findOne({ studentId }); 
     if (user) errorGenerator("이미 등록된 회원입니다", 404); 
   
@@ -50,9 +52,10 @@ const signUp = async (req, res, next) => {
 
 ////signin
 const createToken = (userId) => {
-  const token = jwt.sign({ _id: userId.toString() }, SECRET_KEY); 
+  const token = jwt.sign({ _id: userId.toString() }, process.env.SECRETKEY); 
   return token;
 };
+
 
 const signIn = async (req, res, next) => {
   try {
@@ -61,17 +64,35 @@ const signIn = async (req, res, next) => {
 
     const user = await User.findOne({ studentId });
 
-    if (!user) errorGenerator("존재하지 않는 회원입니다", 404); 
+    if (!user)res.status(301).json({ status: 'Fail', message: "존재하지 않는 회원입니다"});
 
     const passwordCheck = await bcrypt.compare(password, user.password);
 
-    if (!passwordCheck) errorGenerator("비밀번호가 틀렸습니다", 404); 
+    if (!passwordCheck)res.status(302).json({status: 'Fail', message: "비밀번호가 틀렸습니다"});
 
     const token = createToken(user._id);
-    res.status(201).json({ message: "Success", token });
+    res.status(201).json({ status: 'Success',token });
   } catch (err) {
     next(err);
   }
 };
+/////인증 인가 미들웨어 코드
+/*module.exports = async (req, res, next) => { 
+  try {
+    const token = req.get("Authorization"); 
 
+    const decodedToken = jwt.verify(token, SECRET_KEY); 
+    const { _id } = decodedToken; 
+
+    const user = await User.findOne({ _id }); 
+    if (!user) errorGenerator("Not found User", "404");
+
+    req.user = user; 
+    next(); 
+  } catch (err) {
+    err.message = "Not authenticated"; 
+    err.statsuCode = 401; 
+    next(err);
+  }
+};*/
 module.exports = { signUp, signIn };

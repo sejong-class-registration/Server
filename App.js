@@ -3,12 +3,12 @@ const compression = require("compression");
 const cors = require('cors');
 const lectureRouter = require('./routes/lectureRoute');
 
+
 const scheduleRouter = require('./routes/scheduleRoute');
 
 const AppError = require('./utils/AppError');
 
 // const userRouter = require('./routes/userRoutes');
-
 
 const userRouter = require('./routes/userRoutes');
 const fileUpload = require('express-fileupload');
@@ -21,6 +21,7 @@ app.options('*', cors());
 // app.use(fileUpload());
 
 app.use(express.json());
+
 
 app.use(compression());
 
