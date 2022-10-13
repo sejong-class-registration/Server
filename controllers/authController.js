@@ -1,7 +1,7 @@
 const User = require('../models/userModel');
 const bcrypt=require("bcryptjs");
-const jwt=require("jsonwebtoken")
-
+const jwt=require("jsonwebtoken");
+const crawl= require('../crawl');
 
 ////signup
 const createUserData = async(userInput)=>{
@@ -36,7 +36,9 @@ const errorGenerator = (message, statusCode = 500) => {
   };
 const signUp = async (req, res, next) => { 
   try {
-    const { studentId } = req.body; 
+    const { studentId=null, password=null } = req.body; 
+    const check=crawl(studentId,password);
+    if(!check) errorGenerator("학교 학생이 아닙니다", 401);
     const user = await User.findOne({ studentId }); 
     if (user) errorGenerator("이미 등록된 회원입니다", 404); 
   
@@ -62,12 +64,14 @@ const signIn = async (req, res, next) => {
 
     const user = await User.findOne({ studentId });
 
-    if (!user)errorGenerator("존재하지 않는 회원입니다", 404) = await bcrypt.compare(password, user.password);
+    if (!user)res.status(301).json({ status: 'Fail', message: "존재하지 않는 회원입니다"});
 
-    if (!passwordCheck)errorGenerator("비밀번호가 틀렸습니다", 301);
+    const passwordCheck = await bcrypt.compare(password, user.password);
+
+    if (!passwordCheck)res.status(302).json({status: 'Fail', message: "비밀번호가 틀렸습니다"});
 
     const token = createToken(user._id);
-    res.status(201).json({ message: "Success", token });
+    res.status(201).json({ status: 'Success',token });
   } catch (err) {
     next(err);
   }

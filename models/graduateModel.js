@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 // const validator = require('validator');
 
 const graduationSchema = new mongoose.Schema({// 이수해야되는
+  
   totalCredits: { //총학점
     type: Number,
     default:0
