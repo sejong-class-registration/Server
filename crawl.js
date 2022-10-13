@@ -68,5 +68,15 @@ const crwal = async (req,res, next) => {
       )
       .click();
   });
-  consol.log("page loaded!");
+  console.log("page loaded!");
+  
+  setTimeout(async () => {
+    const content = await page.content();
+    const $ = cheerio.load(content);
+
+    const data = $("nobr");
+    data.each((i, el) => {
+      console.log($(el).text());
+    });
+  }, 2000);
 }
