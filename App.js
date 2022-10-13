@@ -11,11 +11,14 @@ const AppError = require('./utils/AppError');
 // const userRouter = require('./routes/userRoutes');
 
 const userRouter = require('./routes/userRoutes');
+const fileUpload = require('express-fileupload');
 
 const app = express();
 
+
 app.use(cors());
 app.options('*', cors());
+// app.use(fileUpload());
 
 app.use(express.json());
 
