@@ -2,11 +2,10 @@ const puppeteer = require("puppeteer");
 const cheerio = require("cheerio");
 const axios = require("axios");
 
-const crwal = async (req,res, next) => {
+async function crawling (id,pw){
   const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
   // private
-  const { id=null, pw=null } = req.body; 
   await page.setViewport({
     width: 1366,
     height: 768
@@ -68,15 +67,8 @@ const crwal = async (req,res, next) => {
       )
       .click();
   });
-  console.log("page loaded!");
-  
-  setTimeout(async () => {
-    const content = await page.content();
-    const $ = cheerio.load(content);
 
-    const data = $("nobr");
-    data.each((i, el) => {
-      console.log($(el).text());
-    });
-  }, 2000);
+  return await("page loaded!");
 }
+
+module.exports={crawling};
