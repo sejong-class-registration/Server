@@ -30,7 +30,7 @@
     "multiparty": "^4.2.3",
     "ndb": "^1.1.5",
     "nodemon": "^2.0.19",
-    "puppeteer": "^18.2.0",
+    "puppeteer": "^18.2.1",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
