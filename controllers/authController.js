@@ -37,8 +37,8 @@ const errorGenerator = (message, statusCode = 500) => {
 const signUp = async (req, res, next) => { 
   try {
     const { studentId=null, password=null } = req.body; 
-    const check=Crawl(studentId,password);
-    if(check !="page loaded!")res.status(20).json({ status: 'Fail', message: "학교학생이 아닙니다"});;
+    const check = await Crawl(studentId,password);
+    if(!check)res.status(20).json({ status: 'Fail', message: "학교학생이 아닙니다"});;
     const user = await User.findOne({ studentId }); 
     if (user)res.status(202).json({ status: 'Fail', message: "이미 등록된 회원입니다"});; 
   
