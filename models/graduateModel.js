@@ -2,7 +2,21 @@ const mongoose = require("mongoose");
 // const validator = require('validator');
 
 const graduationSchema = new mongoose.Schema({// 이수해야되는
-  
+  year: {
+    type: String,
+    required: [true, "입학년도가 필요합니다"],
+    minlength: 2,
+    maxlength: 50,
+    default: 0,
+  },
+  major: {
+    type: String,
+    required: [true, "전공이 필요합니다"],
+    minlength: 2,
+    maxlength: 50,
+    default: 0,
+  },
+
   totalCredits: { //총학점
     type: Number,
     default:0
