@@ -46,7 +46,8 @@ jsonData.map((data, index) => {
       room: data.__EMPTY_13,
       dayAndTime: data.__EMPTY_12,
       creditExchange: data.__EMPTY_16,
-      notice: data.__EMPTY_17
+      notice: data.__EMPTY_17,
+      area: data.__EMPTY_6
     });
     console.log(newLecture);
     try {

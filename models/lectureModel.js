@@ -61,7 +61,6 @@ const lectureSchema = new mongoose.Schema(
     recommend: {
       type: Boolean,
       default: "미정",
-      default: false,
     },
     dayAndTime: {
       type: String,
@@ -77,6 +76,10 @@ const lectureSchema = new mongoose.Schema(
       type: String,
       default: "미정",
     },
+    area: {
+      type: String,
+      default: '미정'
+    }
   },
   {
     toJSON: { virtuals: true },
