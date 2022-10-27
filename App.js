@@ -3,25 +3,30 @@ const compression = require("compression");
 const cors = require('cors');
 const lectureRouter = require('./routes/lectureRoute');
 
-
 const scheduleRouter = require('./routes/scheduleRoute');
 
 const AppError = require('./utils/AppError');
 
 // const userRouter = require('./routes/userRoutes');
 
+
 const userRouter = require('./routes/userRoutes');
 const fileUpload = require('express-fileupload');
+const bodyParser = require('body-parser');
 
 const app = express();
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  limit: '150mb',
+  extended: false
+}));
 
 app.use(cors());
 app.options('*', cors());
 // app.use(fileUpload());
 
 app.use(express.json());
-
 
 app.use(compression());
 
