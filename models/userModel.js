@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "학생이름이 필요합니다"],
     minlength: 2,
+    unique:false,
     default: 0,
   },
   password: {
@@ -39,11 +40,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: 0,
   },
-  takenTotalCredits: {
+  totalCredits: {
     type: String,
     default: 0,
   },
-  takenMajorCredits: {
+  majorCredits: {
     type: String,
     default: 0,
   },
@@ -84,4 +85,6 @@ userSchema.virtual("year").get(function () {
 });
 
 const User = mongoose.model("User", userSchema);
+
+
 module.exports = User;
