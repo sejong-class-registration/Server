@@ -147,3 +147,39 @@ exports.addLectureOnSchedule = async (req, res) => {
     });
   }
 };
+
+exports.deleteLectureOnSchedule = async (req, res) => {
+  try {
+    const { userId, scheduleId } = req.body;
+    const schedule = await Schedule.findOne({ userId, scheduleId });
+    const currentLecture = await Lecture.findById(req.params.id);
+    const index = schedule.schedule.findIndex((e) => e._id.equals(req.params.id));
+    const temp = schedule.schedule;
+    const totalCredit = schedule.totalCredit;
+    temp.splice(index,1);
+    const updatedSchedule = await Schedule.findOneAndUpdate(
+      {userId,scheduleId},
+      {
+        userId,
+        scheduleId,
+        totalCredit: totalCredit - currentLecture.credit,
+        schedule: temp,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    res.status(201).json({
+      status: "success",
+      data: {
+        schedule: updatedSchedule,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err,
+    });
+  }
+};

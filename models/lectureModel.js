@@ -59,7 +59,7 @@ const lectureSchema = new mongoose.Schema(
       maxlength: 50,
     },
     recommend: {
-      type: Boolean,
+      type: String,
       default: "미정",
     },
     dayAndTime: {
