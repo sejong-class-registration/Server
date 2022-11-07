@@ -180,6 +180,7 @@ exports.deleteLectureOnSchedule = async (req, res) => {
     const currentLecture = await Lecture.findById(req.params.id);
     const index = schedule.schedule.findIndex((e) => e._id.equals(req.params.id));
     const temp = schedule.schedule;
+    console.log(schedule.totalCredit);
     const totalCredit = schedule.totalCredit;
     temp.splice(index, 1);
     const updatedSchedule = await Schedule.findOneAndUpdate(
@@ -187,7 +188,7 @@ exports.deleteLectureOnSchedule = async (req, res) => {
       {
         userId,
         scheduleId,
-        totalCredit: totalCredit - currentLecture.credit,
+        totalCredit: totalCredit - currentLecture.credit[0] * 1,
         schedule: temp,
       },
       {
