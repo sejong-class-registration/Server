@@ -84,6 +84,31 @@ exports.addLectureOnSchedule = async (req, res) => {
 
     let currnetLectureCredit = 0;
 
+    if (currentLecture.dayAndTime.length === 0) {
+      scheduleArray.unshift(currentLecture);
+      const updatedSchedule = await Schedule.findOneAndUpdate(
+        userId,
+        {
+          userId,
+          scheduleId,
+          totalCredit: totalCredit + currnetLectureCredit,
+          schedule: scheduleArray,
+        },
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
+
+      res.status(201).json({
+        status: "success",
+        data: {
+          schedule: updatedSchedule,
+        },
+      });
+      return;
+    }
+
     // 기존의 시간표에 있는 모든 강의들과 요일, 시간 계산
     scheduleArray.forEach((lecture) => {
       let lectureStartTime = 0;
@@ -156,9 +181,9 @@ exports.deleteLectureOnSchedule = async (req, res) => {
     const index = schedule.schedule.findIndex((e) => e._id.equals(req.params.id));
     const temp = schedule.schedule;
     const totalCredit = schedule.totalCredit;
-    temp.splice(index,1);
+    temp.splice(index, 1);
     const updatedSchedule = await Schedule.findOneAndUpdate(
-      {userId,scheduleId},
+      { userId, scheduleId },
       {
         userId,
         scheduleId,
