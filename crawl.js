@@ -18,8 +18,6 @@ async function crawling (id,pw){
 
   await page.goto("https://sjpt.sejong.ac.kr/main/view/Login/doSsoLogin.do?p=");
 
-  console.log("new page url:", page.url());
-
   await page.evaluate(
     (id, pw) => {
       document.querySelector("#id").value = id;
@@ -32,8 +30,18 @@ async function crawling (id,pw){
   await page.click("#loginBtn");
 
   await page.waitForNavigation();
+  if(page.url()==="https://sjpt.sejong.ac.kr/main/view/Login/doSsoLogin.do?p="){
+    console.log('성공');
+    await browser.close();
+    return(1);
+  }
+  else if(page.url()==="https://portal.sejong.ac.kr/jsp/login/login_action.jsp"){
+    console.log('실패');
+    await browser.close();
+    return(0);
 
-  await page.waitForSelector("#mf_wfrLeftTreeMenu_treLeftMenu_label_22");
+  }
+  /*await page.waitForSelector("#mf_wfrLeftTreeMenu_treLeftMenu_label_22");
   await page.waitForFunction(() => {
     return (
       document.querySelector("#mf_wfrLeftTreeMenu_treLeftMenu_label_22")
@@ -68,7 +76,7 @@ async function crawling (id,pw){
       )
       .click();
   });
-  /*setTimeout(async () => {
+  setTimeout(async () => {
     const content = await page.content();
     const $ = cheerio.load(content);
 
@@ -77,7 +85,6 @@ async function crawling (id,pw){
       console.log($(el).text());
     });
   }, 2000);*/
-  return (1);
 }
 
 module.exports=crawling;
