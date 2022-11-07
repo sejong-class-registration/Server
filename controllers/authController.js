@@ -14,7 +14,6 @@ const encodedUser = async({
     password,
     userGrade,
     major,
-    takenLectures,
     doubleMajor
 }) => {
     const hashedPass = await bcrypt.hash(password,12);
@@ -24,7 +23,6 @@ const encodedUser = async({
         password: hashedPass,
         userGrade,
         major,
-        takenLectures,
         doubleMajor
     });
     return user;
@@ -38,16 +36,21 @@ const signUp = async (req, res, next) => {
   try {
     const { studentId=null, password=null } = req.body; 
     const check = await Crawl(studentId,password);
-    if(!check)res.status(20).json({ status: 'Fail', message: "학교학생이 아닙니다"});;
-    const user = await User.findOne({ studentId }); 
-    if (user)res.status(202).json({ status: 'Fail', message: "이미 등록된 회원입니다"});; 
-  
+    if(!check){
+      return res.status(200).json({ status: 'Fail', message: "학교학생이 아닙니다"});;
+    }
+    let user = await User.findOne({ studentId }); 
+    if (user){
+      return res.status(202).json({ status: 'Fail', message: "이미 등록된 회원입니다"});; 
+    }
     await createUserData(req.body); 
-    res.status(201).json({ message: "User created" }); 
+    user = await User.findOne({ studentId }); 
+    const token = createToken(user._id);
+    res.status(201).json({ message: "User created", token, user}); 
   } catch (err) {
     next(err); 
   }
-};  
+};
 //const newUser = await User.create(req.body);
 
 ////signin
@@ -71,7 +74,7 @@ const signIn = async (req, res, next) => {
     if (!passwordCheck)res.status(203).json({status: 'Fail', message: "비밀번호가 틀렸습니다"});
 
     const token = createToken(user._id);
-    res.status(201).json({ status: 'Success',token });
+    res.status(201).json({ status: 'Success',token, user});
   } catch (err) {
     next(err);
   }
