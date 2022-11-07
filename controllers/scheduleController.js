@@ -175,7 +175,7 @@ exports.addLectureOnSchedule = async (req, res) => {
 
 exports.deleteLectureOnSchedule = async (req, res) => {
   try {
-    const { userId, scheduleId } = req.body;
+    const { userId, scheduleId } = req.query;
     const schedule = await Schedule.findOne({ userId, scheduleId });
     const currentLecture = await Lecture.findById(req.params.id);
     const index = schedule.schedule.findIndex((e) => e._id.equals(req.params.id));
