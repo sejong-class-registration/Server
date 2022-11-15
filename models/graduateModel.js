@@ -21,43 +21,43 @@ const graduationSchema = new mongoose.Schema({// 이수해야되는
     type: Number,
     default:0
   },
-  TotalmajorCredits: { //전공총학점
+  mustMajorCredits: { //전공총학점
     type: Number, 
     default:0
   },
-  requiredMajorCredits: { // 전필학점
+  selectiveMajorCredits:{
     type: Number,
     default:0
   },
-  requiredMajorCourses:{// 전필과목
-    type: String,
-    default:0
+  공통교양필수과목:{
+    type: [String],
+    default:[]
   },
-  selectiveMajorCredits: {// 전선학점
-    type: Number,
-    default: 0
+  균형교양필수영역:{
+    type: [String],
+    default:[]
   },
-  selectiveGECredits: {// 교선학점
-    type: Number,
-    default: 0
+  교양선택필수과목:{
+    type: [String],
+    default:[]
   },
-  requiredSelectiveGECourses:{// 필수이수 교양선택과목
-    type: String,
-    default:0
+  학문기초교양필수과목:{
+    type: [String],
+    default:[]
   },
-  selctiveGEPartCondition: { //교양선택 영역 조건
-    type: Boolean,
-    default: false
-  },
-  commonRequiredGECoureses: {//공통필수교양
-    type: String,
-    default: 0,
-  },
-  academicBasicEduCourses: {//학문기초교양
-    type: String,
-    default: 0,
-  }
+  // requiredCourses:{// 필수이수과목
+  //   type: String,
+  //   default:0
+  // },
+},{
+  toJSON: {virtuals: true},
+  toObject: {virtuals: true}
 });
+
+graduationSchema.virtual("selectiveAreaCount").get(function () {
+  if(this.year === '2022') return 2;
+  else return 3;
+})
 
 const Graduation = mongoose.model("Graduation", graduationSchema);
 module.exports = Graduation;

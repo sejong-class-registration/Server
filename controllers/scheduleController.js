@@ -46,17 +46,9 @@ exports.addLectureOnSchedule = async (req, res) => {
 
     // 입력된 userId와 scheduleId로 시간표를 새로 생성할지, 이미 있는 시간표를 수정할지 정함
     if (!currentSchedule) {
-      const newSchedule = await Schedule.create({
-        userId,
-        scheduleId,
-        totalCredit: currentLecture.credit[0] * 1,
-        schedule: [currentLecture],
-      });
-      res.status(201).json({
-        status: "success",
-        data: {
-          schedule: newSchedule,
-        },
+      res.status(404).json({
+        status: "fail",
+        err : "잘못된 요청입니다",
       });
       return;
     }
@@ -82,7 +74,7 @@ exports.addLectureOnSchedule = async (req, res) => {
       day: currentLectureDay,
     } = extractDayAndTime(currentLecture.dayAndTime.length, currentLecture);
 
-    let currnetLectureCredit = 0;
+    const currentLectureCredit =  currentLecture.credit * 1;
 
     if (currentLecture.dayAndTime.length === 0) {
       scheduleArray.unshift(currentLecture);
@@ -91,7 +83,7 @@ exports.addLectureOnSchedule = async (req, res) => {
         {
           userId,
           scheduleId,
-          totalCredit: totalCredit + currnetLectureCredit,
+          totalCredit: totalCredit + currentLectureCredit,
           schedule: scheduleArray,
         },
         {
@@ -150,7 +142,7 @@ exports.addLectureOnSchedule = async (req, res) => {
       {
         userId,
         scheduleId,
-        totalCredit: totalCredit + currnetLectureCredit,
+        totalCredit: totalCredit + currentLectureCredit,
         schedule: scheduleArray,
       },
       {
