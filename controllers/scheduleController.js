@@ -139,17 +139,17 @@ exports.addLectureOnSchedule = async (req, res) => {
 
     scheduleArray.unshift(currentLecture);
     const updatedSchedule = await Schedule.findOneAndUpdate(
-      userId,
+      {userId, scheduleId},
       {
         userId,
         scheduleId,
         totalCredit: totalCredit + currentLectureCredit,
         schedule: scheduleArray,
       },
-      {
-        new: true,
-        runValidators: true,
-      }
+      // {
+      //   new: true,
+      //   runValidators: true,
+      // }
     );
 
     res.status(201).json({
