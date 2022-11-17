@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 // const validator = require('validator');
 // a
+
+
 const userSchema = new mongoose.Schema({
   studentId: {
     type: String,
@@ -43,6 +45,13 @@ const userSchema = new mongoose.Schema({
   totalCredits: {
     type: String,
     default: 0,
+  },
+  recommendLecture: {
+    type: [{
+      name:String,
+      comment:String
+    }],
+    default: []
   },
   majorCredits: {
     type: String,

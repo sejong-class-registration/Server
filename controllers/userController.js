@@ -37,7 +37,8 @@ exports.deleteUser = (req, res) => {
   });
 };
 
-exports.uploadExcel = (req, res) => {
+exports.uploadExcel = async (req, res) => {
+  const {studentId} = req.query;
   let path = req.file.path;
   const excelFile = Xlsx.readFile(path);
   // console.log(req.file);
@@ -58,18 +59,29 @@ exports.uploadExcel = (req, res) => {
       const type = data.__EMPTY_4;
       const credit = data.__EMPTY_7 * 1;
       const userCredit = data.__EMPTY_9;
-
       name = lectureMatching(name);
 
       if (userCredit === "NP" || userCredit === "F" || userCredit === "FA") {
         // 학점 이수 실패
       } else {
-        takenletures.push(name);
+        
+        takenletures.push({name, comment:'123'});
+        
         totalCredit += credit;
         if (type === "전선" || type === "전필") majorCredit += credit;
       }
     }
   });
+
+  console.log(123);
+
+  const user = await User.findOneAndUpdate(studentId,{
+    recommendLecture: takenletures
+  });
+
+  console.log(1234);
+
+
   fs.unlinkSync(path);
   res.status(200).json({
     statis: "success",
@@ -78,6 +90,7 @@ exports.uploadExcel = (req, res) => {
       takenletures,
       totalCredit,
       majorCredit,
+      user
     },
   });
 };
