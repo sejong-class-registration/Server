@@ -61,7 +61,7 @@ exports.uploadExcel = (req, res) => {
 
       name = lectureMatching(name);
 
-      if (userCredit === "NP" || userCredit === "F") {
+      if (userCredit === "NP" || userCredit === "F" || userCredit === "FA") {
         // 학점 이수 실패
       } else {
         takenletures.push(name);
