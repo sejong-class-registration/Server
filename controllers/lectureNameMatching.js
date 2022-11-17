@@ -1,4 +1,4 @@
-export const lectureMatching = (name) => {
+exports.lectureMatching = (name) => {
   if (name === "일반물리학및실험1") name = "일반물리학1";
   if (name === "일반물리학및실험2") name = "일반물리학2";
   if (name === "다변수미적분학") name = "미적분학2";
