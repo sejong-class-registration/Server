@@ -4,6 +4,7 @@ const cors = require('cors');
 const lectureRouter = require('./routes/lectureRoute');
 
 const scheduleRouter = require('./routes/scheduleRoute');
+const graduationRouter = require('./routes/graduateRoute');
 
 const AppError = require('./utils/AppError');
 
@@ -33,6 +34,7 @@ app.use(compression());
 app.use('/lectures', lectureRouter);
 app.use('/schedules', scheduleRouter);
 app.use('/users', userRouter);
+app.use('/graduation', graduationRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`${req.originalUrl} is not found in server!`, 404));

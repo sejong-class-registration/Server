@@ -3,6 +3,7 @@ const multiparty = require("multiparty");
 const Lecture = require("../models/lectureModel");
 const Xlsx = require("xlsx");
 const fs = require("fs");
+const { lectureMatching } = require("./lectureNameMatching.js");
 
 exports.getAllUsers = (req, res) => {
   res.status(500).json({
@@ -53,13 +54,17 @@ exports.uploadExcel = (req, res) => {
       // console.log('empty');
     } else {
       const number = data.__EMPTY_2;
+      let name = data.__EMPTY_3.trim();
       const type = data.__EMPTY_4;
       const credit = data.__EMPTY_7 * 1;
       const userCredit = data.__EMPTY_9;
+
+      name = lectureMatching(name);
+
       if (userCredit === "NP" || userCredit === "F") {
         // 학점 이수 실패
       } else {
-        takenletures.push(number);
+        takenletures.push(name);
         totalCredit += credit;
         if (type === "전선" || type === "전필") majorCredit += credit;
       }
@@ -69,10 +74,10 @@ exports.uploadExcel = (req, res) => {
   res.status(200).json({
     statis: "success",
     message: "upload excel!",
-    data : {
+    data: {
       takenletures,
       totalCredit,
-      majorCredit
-    }
+      majorCredit,
+    },
   });
 };

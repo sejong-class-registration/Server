@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema({
     default: 0,
   },
   takenLectures: {
-    type: String,
+    type: [String],
     default: 0,
   },
   doubleMajor: {
