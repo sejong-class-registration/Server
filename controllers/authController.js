@@ -34,6 +34,11 @@ const errorGenerator = (message, statusCode = 500) => {
   };
 const signUp = async (req, res, next) => { 
   try {
+    const { studentId=null, password=null } = req.body; 
+    const check = await Crawl(studentId,password);
+    if(!check){
+      return res.status(200).json({ status: 'Fail', message: "학교학생이 아닙니다"});;
+    }
     let user = await User.findOne({ studentId }); 
     if (user){
       return res.status(202).json({ status: 'Fail', message: "이미 등록된 회원입니다"});; 
