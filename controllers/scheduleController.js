@@ -7,12 +7,12 @@ exports.getUserSchedules = async (req, res) => {
     res.status(200).json({
       status: "success",
       results: schedules.length,
-      data: { schedules },
+      data: { schedules }
     });
   } catch (err) {
     res.status(404).json({
       status: "fail",
-      message: err,
+      message: err
     });
   }
 };
@@ -24,13 +24,13 @@ exports.postUserSchedules = async (req, res) => {
     res.status(201).json({
       status: "success",
       data: {
-        schedule: newSchedule,
-      },
+        schedule: newSchedule
+      }
     });
   } catch (err) {
     res.status(400).json({
       status: "fail",
-      message: err,
+      message: err
     });
   }
 };
@@ -41,7 +41,7 @@ exports.addLectureOnSchedule = async (req, res) => {
   };
   try {
     const { userId, scheduleId } = req.body;
-    console.log(userId, scheduleId)
+    console.log(userId, scheduleId);
     const currentLecture = await Lecture.findById(req.params.id);
     const currentSchedule = await Schedule.findOne({ userId, scheduleId });
 
@@ -49,7 +49,7 @@ exports.addLectureOnSchedule = async (req, res) => {
     if (!currentSchedule) {
       res.status(404).json({
         status: "fail",
-        err : "잘못된 요청입니다",
+        err: "잘못된 요청입니다"
       });
       return;
     }
@@ -72,32 +72,33 @@ exports.addLectureOnSchedule = async (req, res) => {
     const {
       startTime: currentLectureStartTime,
       endTime: currentLectureEndTime,
-      day: currentLectureDay,
+      day: currentLectureDay
     } = extractDayAndTime(currentLecture.dayAndTime.length, currentLecture);
 
-    const currentLectureCredit =  currentLecture.credit[0] * 1;
-    console.log(currentLecture.credit[0])
+    const currentLectureCredit = currentLecture.credit[0] * 1;
+    console.log(currentLecture.credit[0]);
     if (currentLecture.dayAndTime.length === 0) {
       scheduleArray.unshift(currentLecture);
       const updatedSchedule = await Schedule.findOneAndUpdate(
-        {userId,scheduleId},
+        { userId, scheduleId },
         {
           userId,
           scheduleId,
           totalCredit: totalCredit + currentLectureCredit,
-          schedule: scheduleArray,
-        },
+          schedule: scheduleArray
+        }
         // {
         //   new: true,
         //   runValidators: true,
         // }
       );
+      console.log(updatedSchedule);
 
       res.status(201).json({
         status: "success",
         data: {
-          schedule: updatedSchedule,
-        },
+          schedule: updatedSchedule
+        }
       });
       return;
     }
@@ -116,14 +117,18 @@ exports.addLectureOnSchedule = async (req, res) => {
         throw { code: 301, message: "이미 같은 강의가 시간표에 존재합니다." };
       }
 
-      if (day.includes(currentLectureDay[0]) || day.includes(currentLectureDay[1])) {
+      if (
+        day.includes(currentLectureDay[0]) ||
+        day.includes(currentLectureDay[1])
+      ) {
         startTime = startTime.slice(0, 2) * 60 + startTime.slice(3, 5) * 1;
         endTime = endTime.slice(0, 2) * 60 + endTime.slice(3, 5) * 1;
         lectureStartTime =
           currentLectureStartTime.slice(0, 2) * 60 +
           currentLectureStartTime.slice(3, 5) * 1;
         lectureEndTime =
-          currentLectureEndTime.slice(0, 2) * 60 + currentLectureEndTime.slice(3, 5) * 1;
+          currentLectureEndTime.slice(0, 2) * 60 +
+          currentLectureEndTime.slice(3, 5) * 1;
 
         if (isRange(lectureStartTime, startTime, endTime)) {
           throw { code: 302, message: "시간표의 시간과 겹칩니다." };
@@ -131,7 +136,10 @@ exports.addLectureOnSchedule = async (req, res) => {
           throw { code: 302, message: "시간표의 시간과 겹칩니다." };
         } else if (lectureStartTime < startTime && lectureEndTime > endTime) {
           throw { code: 302, message: "시간표의 시간과 겹칩니다." };
-        } else if (lectureStartTime === startTime && lectureEndTime === endTime) {
+        } else if (
+          lectureStartTime === startTime &&
+          lectureEndTime === endTime
+        ) {
           throw { code: 302, message: "시간표의 시간과 겹칩니다." };
         }
       }
@@ -139,13 +147,13 @@ exports.addLectureOnSchedule = async (req, res) => {
 
     scheduleArray.unshift(currentLecture);
     const updatedSchedule = await Schedule.findOneAndUpdate(
-      {userId, scheduleId},
+      { userId, scheduleId },
       {
         userId,
         scheduleId,
         totalCredit: totalCredit + currentLectureCredit,
-        schedule: scheduleArray,
-      },
+        schedule: scheduleArray
+      }
       // {
       //   new: true,
       //   runValidators: true,
@@ -155,13 +163,13 @@ exports.addLectureOnSchedule = async (req, res) => {
     res.status(201).json({
       status: "success",
       data: {
-        schedule: updatedSchedule,
-      },
+        schedule: updatedSchedule
+      }
     });
   } catch (err) {
     res.status(err.code || 400).json({
       status: "fail",
-      message: err.message,
+      message: err.message
     });
   }
 };
@@ -171,7 +179,9 @@ exports.deleteLectureOnSchedule = async (req, res) => {
     const { userId, scheduleId } = req.query;
     const schedule = await Schedule.findOne({ userId, scheduleId });
     const currentLecture = await Lecture.findById(req.params.id);
-    const index = schedule.schedule.findIndex((e) => e._id.equals(req.params.id));
+    const index = schedule.schedule.findIndex((e) =>
+      e._id.equals(req.params.id)
+    );
     const temp = schedule.schedule;
     console.log(schedule.totalCredit);
     const totalCredit = schedule.totalCredit;
@@ -182,23 +192,23 @@ exports.deleteLectureOnSchedule = async (req, res) => {
         userId,
         scheduleId,
         totalCredit: totalCredit - currentLecture.credit[0] * 1,
-        schedule: temp,
+        schedule: temp
       },
       {
         new: true,
-        runValidators: true,
+        runValidators: true
       }
     );
     res.status(201).json({
       status: "success",
       data: {
-        schedule: updatedSchedule,
-      },
+        schedule: updatedSchedule
+      }
     });
   } catch (err) {
     res.status(400).json({
       status: "fail",
-      message: err,
+      message: err
     });
   }
 };
