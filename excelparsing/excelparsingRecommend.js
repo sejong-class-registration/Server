@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const app = require("./App");
-const Crawling = require("./models/crawlingModel");
+const app = require("../App");
+const Crawling = require("../models/crawlingModel");
 
-dotenv.config({ path: "./config.env" });
+dotenv.config({ path: "../config.env" });
 
 const DB = process.env.DATABASE;
 
@@ -17,7 +17,7 @@ const db = mongoose
   });
 
 const Xlsx = require("xlsx");
-const excelFile = Xlsx.readFile("./public/recommend.xlsx");
+const excelFile = Xlsx.readFile("../public/recommend.xlsx");
 const sheetName = excelFile.SheetNames[0];
 const firstSheet = excelFile.Sheets[sheetName];
 const jsonData = Xlsx.utils.sheet_to_json(firstSheet, { defval: "" });
