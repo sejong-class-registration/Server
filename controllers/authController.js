@@ -1,4 +1,5 @@
 const User = require('../models/userModel');
+const Schedule=require('../models/scheduleModel');
 const bcrypt=require("bcryptjs");
 const jwt=require("jsonwebtoken");
 const Crawl= require('../crawl');
@@ -79,6 +80,22 @@ const signIn = async (req, res, next) => {
     next(err);
   }
 };
+////deleteAccount
+const deleteUser =async(req,res,next)=>{
+  try{
+    const Id=req.params.id;
+    const data=await User.findOne({studentId: Id});
+    if(!data) errorGenerator("존재하지 않는 회원입니다", 202);
+    await User.deleteOne({studentId: Id})
+    await Schedule.deleteMany({userId: Id})
+    .then(()=>{
+      res.status(200).json({status: 'Succes', message:'회원탈퇴되었습니다'});
+    })
+  }catch(err){
+  next(err);
+  }
+};
+
 /////인증 인가 미들웨어 코드
 /*module.exports = async (req, res, next) => { 
   try {
@@ -98,4 +115,4 @@ const signIn = async (req, res, next) => {
     next(err);
   }
 };*/
-module.exports = { signUp, signIn };
+module.exports = { signUp, signIn,deleteUser };
