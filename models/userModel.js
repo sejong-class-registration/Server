@@ -37,6 +37,18 @@ const userSchema = new mongoose.Schema({
     type: [String],
     default: []
   },
+  takenGE1: {
+    type: [String],
+    default: []
+  },
+  takenGE2: {
+    type: [String],
+    default: []
+  },
+  takenGE3: {
+    type: [String],
+    default: []
+  },
   doubleMajor: {
     type: String,
     default: ''
