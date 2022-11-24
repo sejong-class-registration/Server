@@ -5,6 +5,7 @@ const { lectureMatching, areaMatching } = require("./lectureNameMatching.js");
 const Graduation = require("../models/graduateModel");
 
 exports.getAllUsers = (req, res) => {
+
   res.status(500).json({
     status: "error",
     message: "This route is not yet defined!"
@@ -29,12 +30,7 @@ exports.updateUser = (req, res) => {
     message: "This route is not yet defined!"
   });
 };
-exports.deleteUser = (req, res) => {
-  res.status(500).json({
-    status: "error",
-    message: "This route is not yet defined!"
-  });
-};
+
 
 exports.uploadExcel = async (req, res) => {
   let path = req.file.path;
