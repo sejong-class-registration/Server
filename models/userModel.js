@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 // const validator = require('validator');
+// a
 
 const userSchema = new mongoose.Schema({
   studentId: {
@@ -7,81 +8,92 @@ const userSchema = new mongoose.Schema({
     required: [true, "학번이 필요합니다"],
     minlength: 2,
     maxlength: 50,
-    default: 0,
+    default: 0
   },
   name: {
     type: String,
     required: [true, "학생이름이 필요합니다"],
     minlength: 2,
-    default: 0,
+    unique: false,
+    default: 0
   },
   password: {
     type: String,
-    required: [true, "비밀번호가 필요합니다"],
+    required: [true, "비밀번호가 필요합니다"]
   },
   userGrade: {
     type: Number,
     required: [true, "학년이 필요합니다"],
-    default: 0,
+    default: 0
   },
   major: {
     type: String,
     required: [true, "전공이 필요합니다"],
     minlength: 2,
     maxlength: 50,
-    default: 0,
+    default: ''
   },
   takenLectures: {
-    type: String,
-    default: 0,
+    type: [String],
+    default: []
+  },
+  takenGE1: {
+    type: [String],
+    default: []
+  },
+  takenGE2: {
+    type: [String],
+    default: []
+  },
+  takenGE3: {
+    type: [String],
+    default: []
   },
   doubleMajor: {
     type: String,
-    default: 0,
+    default: ''
   },
-  takenTotalCredits: {
-    type: String,
-    default: 0,
+  totalCredits: {
+    type: Number,
+    default: 0
   },
-  takenMajorCredits: {
-    type: String,
-    default: 0,
+  recommendLecture: {
+    type: [
+      {
+        name: String,
+        comment: String
+      }
+    ],
+    default: []
   },
-  GE1: {
-    //사상과 역사
-    type: Boolean,
-    default: false,
+  majorCredits: {
+    type: Number,
+    default: 0
   },
-  GE2: {
-    //사회와 문화
-    type: Boolean,
-    default: false,
+  geArea: {
+    type: [String],
+    default: [],
   },
-  GE3: {
-    //세계와 지구촌
-    type: Boolean,
-    default: false,
-  },
-  GE4: {
-    //예술과 체육
-    type: Boolean,
-    default: false,
-  },
-  GE5: {
-    //자연과 과학기술
-    type: Boolean,
-    default: false,
-  },
-  GE6: {
-    //자기계발과 진로/융합과 창업
-    type: Boolean,
-    default: false,
-  },
+  geAreaTaken: {
+    type: [String],
+    default: [],
+  }
 });
 
 userSchema.virtual("year").get(function () {
-  return this.userId.slice(0, 2);
+  return "20" + this.studentId.slice(0, 2);
 });
+userSchema.virtual("geAreaPass").get(function (){
+  if(this.studentId.slice(0,2)*1 < 22){
+    if(this.geAreaTaken.length <= 3) return true;
+    else return false;
+  } else{
+    if(this.geAreaTaken.length <= 4) return true;
+    else return false;
+  }
+
+})
 
 const User = mongoose.model("User", userSchema);
+
 module.exports = User;

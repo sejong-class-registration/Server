@@ -3,28 +3,38 @@ const compression = require("compression");
 const cors = require('cors');
 const lectureRouter = require('./routes/lectureRoute');
 
-
 const scheduleRouter = require('./routes/scheduleRoute');
+const graduationRouter = require('./routes/graduateRoute');
 
 const AppError = require('./utils/AppError');
 
 // const userRouter = require('./routes/userRoutes');
 
+
 const userRouter = require('./routes/userRoutes');
+const fileUpload = require('express-fileupload');
+const bodyParser = require('body-parser');
 
 const app = express();
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  limit: '150mb',
+  extended: false
+}));
+
 app.use(cors());
 app.options('*', cors());
+// app.use(fileUpload());
 
 app.use(express.json());
-
 
 app.use(compression());
 
 app.use('/lectures', lectureRouter);
 app.use('/schedules', scheduleRouter);
 app.use('/users', userRouter);
+app.use('/graduation', graduationRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`${req.originalUrl} is not found in server!`, 404));

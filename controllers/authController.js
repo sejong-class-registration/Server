@@ -3,6 +3,7 @@ const Schedule=require('../models/scheduleModel');
 const bcrypt=require("bcryptjs");
 const jwt=require("jsonwebtoken");
 const Crawl= require('../crawl');
+const Schedule = require("../models/scheduleModel");
 
 ////signup
 const createUserData = async(userInput)=>{
@@ -45,7 +46,25 @@ const signUp = async (req, res, next) => {
       return res.status(202).json({ status: 'Fail', message: "이미 등록된 회원입니다"});; 
     }
     await createUserData(req.body); 
-    user = await User.findOne({ studentId }); 
+    user = await User.findOne({ studentId });
+    const newSchedule = await Schedule.create({
+      userId : studentId,
+      scheduleId : 0,
+      totalCredit: 0,
+      schedule: [],
+    });
+    const newSchedule1 = await Schedule.create({
+      userId : studentId,
+      scheduleId : 1,
+      totalCredit: 0,
+      schedule: [],
+    });
+    const newSchedule2 = await Schedule.create({
+      userId : studentId,
+      scheduleId : 2,
+      totalCredit: 0,
+      schedule: [],
+    });
     const token = createToken(user._id);
     res.status(201).json({ message: "User created", token, user}); 
   } catch (err) {
@@ -75,7 +94,7 @@ const signIn = async (req, res, next) => {
     if (!passwordCheck)res.status(203).json({status: 'Fail', message: "비밀번호가 틀렸습니다"});
 
     const token = createToken(user._id);
-    res.status(201).json({ status: 'Success',token, user});
+    res.status(201).json({ status: 'success',token, data:user});
   } catch (err) {
     next(err);
   }
