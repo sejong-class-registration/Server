@@ -29,7 +29,7 @@ const crawlingSchema = new mongoose.Schema(
       default: 0
     },
     recommendNumber: {
-      type: String,
+      type: Number,
       required: [true, '수강횟수가 필요합니다'],
       default: 0
     }
