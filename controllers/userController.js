@@ -129,9 +129,16 @@ exports.uploadExcel = async (req, res) => {
 
   console.log(recommendLecture);
 
+   await User.findOneAndUpdate(
+    { studentId },
+    {
+      recommendLecture
+    }
+  );
+
   fs.unlinkSync(path);
   res.status(200).json({
-    statis: "success",
+    status: "success",
     message: "upload excel!",
     data: {
       takenlectures,

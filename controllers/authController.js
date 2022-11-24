@@ -93,7 +93,7 @@ const signIn = async (req, res, next) => {
     if (!passwordCheck)res.status(203).json({status: 'Fail', message: "비밀번호가 틀렸습니다"});
 
     const token = createToken(user._id);
-    res.status(201).json({ status: 'Success',token, user});
+    res.status(201).json({ status: 'success',token, data:user});
   } catch (err) {
     next(err);
   }
