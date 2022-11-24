@@ -20,3 +20,7 @@ exports.lectureMatching = (name) => {
 
   return name.split(" ").join("");
 };
+
+exports.areaMatching = (area) => {
+  return area.split(" ").join("");
+}

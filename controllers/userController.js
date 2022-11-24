@@ -1,7 +1,7 @@
 const User = require("../models/userModel");
 const Xlsx = require("xlsx");
 const fs = require("fs");
-const { lectureMatching } = require("./lectureNameMatching.js");
+const { lectureMatching, areaMatching } = require("./lectureNameMatching.js");
 const Graduation = require("../models/graduateModel");
 
 exports.getAllUsers = (req, res) => {
@@ -47,6 +47,7 @@ exports.uploadExcel = async (req, res) => {
   let takenlectures = [];
   let totalCredit = 0;
   let majorCredit = 0;
+  let takenArea = new Set();
 
   jsonData.map((data, index) => {
     if (index < 3) {
@@ -57,12 +58,18 @@ exports.uploadExcel = async (req, res) => {
       const type = data.__EMPTY_4;
       const credit = data.__EMPTY_7 * 1;
       const userCredit = data.__EMPTY_9;
+      let area = data.__EMPTY_6;
       name = lectureMatching(name);
+      area = areaMatching(area);
 
       if (userCredit === "NP" || userCredit === "F" || userCredit === "FA") {
         // 학점 이수 실패
       } else {
         takenlectures.push(name);
+        takenArea.add(area);
+        if(area === '융합과창업'){
+          takenArea.add('자기계발과진로');
+        }
 
         totalCredit += credit;
         if (type === "전선" || type === "전필") majorCredit += credit;
@@ -92,6 +99,9 @@ exports.uploadExcel = async (req, res) => {
   const ge1 = graduate.공통교양필수과목;
   const ge2 = graduate.교양선택필수과목;
   const ge3 = graduate.학문기초교양필수과목;
+  const ge4 = graduate.균형교양필수영역;
+  const temp = [...graduate.균형교양필수영역];
+  console.log(takenArea);
   const recommendLecture = [];
 
   ge1.forEach((e) => {
@@ -127,12 +137,23 @@ exports.uploadExcel = async (req, res) => {
     }
   });
 
-  console.log(recommendLecture);
+  console.log(temp, ge4);
+
+  takenArea.forEach((e)=>{
+    const i = ge4.indexOf(e);
+    if(i >= 0){
+      ge4.splice(i,1);
+    }
+  })
+
+  console.log(temp, ge4);
 
    await User.findOneAndUpdate(
     { studentId },
     {
-      recommendLecture
+      recommendLecture,
+      geArea:temp,
+      geAreaTaken:ge4
     }
   );
 

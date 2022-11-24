@@ -58,41 +58,29 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: 0
   },
-  GE1: {
-    //사상과 역사
-    type: Boolean,
-    default: false
+  geArea: {
+    type: [String],
+    default: [],
   },
-  GE2: {
-    //사회와 문화
-    type: Boolean,
-    default: false
-  },
-  GE3: {
-    //세계와 지구촌
-    type: Boolean,
-    default: false
-  },
-  GE4: {
-    //예술과 체육
-    type: Boolean,
-    default: false
-  },
-  GE5: {
-    //자연과 과학기술
-    type: Boolean,
-    default: false
-  },
-  GE6: {
-    //자기계발과 진로/융합과 창업
-    type: Boolean,
-    default: false
+  geAreaTaken: {
+    type: [String],
+    default: [],
   }
 });
 
 userSchema.virtual("year").get(function () {
   return "20" + this.studentId.slice(0, 2);
 });
+userSchema.virtual("geAreaPass").get(function (){
+  if(this.studentId.slice(0,2)*1 < 22){
+    if(this.geAreaTaken.length <= 3) return true;
+    else return false;
+  } else{
+    if(this.geAreaTaken.length <= 4) return true;
+    else return false;
+  }
+
+})
 
 const User = mongoose.model("User", userSchema);
 
