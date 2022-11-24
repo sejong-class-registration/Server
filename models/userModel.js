@@ -31,18 +31,18 @@ const userSchema = new mongoose.Schema({
     required: [true, "전공이 필요합니다"],
     minlength: 2,
     maxlength: 50,
-    default: 0
+    default: ''
   },
   takenLectures: {
     type: [String],
-    default: 0
+    default: []
   },
   doubleMajor: {
     type: String,
-    default: 0
+    default: ''
   },
   totalCredits: {
-    type: String,
+    type: Number,
     default: 0
   },
   recommendLecture: {
@@ -55,7 +55,7 @@ const userSchema = new mongoose.Schema({
     default: []
   },
   majorCredits: {
-    type: String,
+    type: Number,
     default: 0
   },
   geArea: {
