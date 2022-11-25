@@ -3,7 +3,6 @@ const Schedule=require('../models/scheduleModel');
 const bcrypt=require("bcryptjs");
 const jwt=require("jsonwebtoken");
 const Crawl= require('../crawl');
-const Schedule = require("../models/scheduleModel");
 
 ////signup
 const createUserData = async(userInput)=>{
