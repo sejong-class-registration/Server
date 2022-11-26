@@ -68,11 +68,11 @@ const signIn = async (req, res, next) => {
 
     const user = await User.findOne({ studentId });
 
-    if (!user)res.status(202).json({ status: 'Fail', message: "존재하지 않는 회원입니다"});
+    if (!user)errorGenerator("존재하지 않는 회원입니다", 202);
 
     const passwordCheck = await bcrypt.compare(password, user.password);
 
-    if (!passwordCheck)res.status(203).json({status: 'Fail', message: "비밀번호가 틀렸습니다"});
+    if (!passwordCheck)errorGenerator("비밀번호가 틀렸습니다", 203);
 
     const token = createToken(user._id);
     res.status(201).json({ status: 'Success',token, user});
@@ -83,9 +83,12 @@ const signIn = async (req, res, next) => {
 ////deleteAccount
 const deleteUser =async(req,res,next)=>{
   try{
-    const Id=req.params.id;
+    const { Id = null, password = null } = req.body; 
+    if (!Id || !password) errorGenerator("Invalid inputs", 404); 
     const data=await User.findOne({studentId: Id});
     if(!data) errorGenerator("존재하지 않는 회원입니다", 202);
+    const passwordCheck = await bcrypt.compare(password, data.password);
+    if (!passwordCheck)errorGenerator("비밀번호가 틀렸습니다", 203);
     await User.deleteOne({studentId: Id})
     await Schedule.deleteMany({userId: Id})
     .then(()=>{
