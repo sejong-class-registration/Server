@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema({
     required: [true, "전공이 필요합니다"],
     minlength: 2,
     maxlength: 50,
-    default: ''
+    default: ""
   },
   takenLectures: {
     type: [String],
@@ -51,7 +51,7 @@ const userSchema = new mongoose.Schema({
   },
   doubleMajor: {
     type: String,
-    default: ''
+    default: ""
   },
   totalCredits: {
     type: Number,
@@ -70,29 +70,44 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
+  majorMustCredit: {
+    type: Number,
+    default: 0
+  },
+  majorSelectCredit: {
+    type: Number,
+    default: 0
+  },
+  mustMajorTaken: {
+    type: [String],
+    default: []
+  },
+  selectMajorTaken: {
+    type: [String],
+    default: []
+  },
   geArea: {
     type: [String],
-    default: [],
+    default: []
   },
   geAreaTaken: {
     type: [String],
-    default: [],
+    default: []
   }
 });
 
 userSchema.virtual("year").get(function () {
   return "20" + this.studentId.slice(0, 2);
 });
-userSchema.virtual("geAreaPass").get(function (){
-  if(this.studentId.slice(0,2)*1 < 22){
-    if(this.geAreaTaken.length <= 3) return true;
+userSchema.virtual("geAreaPass").get(function () {
+  if (this.studentId.slice(0, 2) * 1 < 22) {
+    if (this.geAreaTaken.length <= 3) return true;
     else return false;
-  } else{
-    if(this.geAreaTaken.length <= 4) return true;
+  } else {
+    if (this.geAreaTaken.length <= 4) return true;
     else return false;
   }
-
-})
+});
 
 const User = mongoose.model("User", userSchema);
 

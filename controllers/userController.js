@@ -5,7 +5,6 @@ const { lectureMatching, areaMatching } = require("./lectureNameMatching.js");
 const Graduation = require("../models/graduateModel");
 
 exports.getAllUsers = (req, res) => {
-
   res.status(500).json({
     status: "error",
     message: "This route is not yet defined!"
@@ -31,7 +30,6 @@ exports.updateUser = (req, res) => {
   });
 };
 
-
 exports.uploadExcel = async (req, res) => {
   let path = req.file.path;
   const excelFile = Xlsx.readFile(path);
@@ -43,6 +41,10 @@ exports.uploadExcel = async (req, res) => {
   let takenlectures = [];
   let totalCredit = 0;
   let majorCredit = 0;
+  let majorMustCredit = 0;
+  let majorSelectCredit = 0;
+  const mustMajorTaken = [];
+  const selectMajorTaken = [];
   let takenArea = new Set();
 
   jsonData.map((data, index) => {
@@ -63,12 +65,20 @@ exports.uploadExcel = async (req, res) => {
       } else {
         takenlectures.push(name);
         takenArea.add(area);
-        if(area === '융합과창업'){
-          takenArea.add('자기계발과진로');
+        if (area === "융합과창업") {
+          takenArea.add("자기계발과진로");
         }
 
         totalCredit += credit;
-        if (type === "전선" || type === "전필") majorCredit += credit;
+        if (type === "전선") {
+          selectMajorTaken.push(name);
+          majorCredit += credit;
+          majorSelectCredit += credit;
+        } else if (type === "전필") {
+          mustMajorTaken.push(name);
+          majorCredit += credit;
+          majorMustCredit += credit;
+        }
       }
     }
   });
@@ -79,11 +89,16 @@ exports.uploadExcel = async (req, res) => {
     {
       takenLectures: takenlectures,
       totalCredits: totalCredit,
-      majorCredits: majorCredit
+      majorCredits: majorCredit,
+      majorMustCredit,
+      majorSelectCredit,
+      mustMajorTaken,
+      selectMajorTaken
     }
   );
   const year = user.year;
   const major = user.major;
+  console.log(year, major);
   if (year * 1 < 2018) {
     res.status(200).json({
       code: 307,
@@ -97,7 +112,10 @@ exports.uploadExcel = async (req, res) => {
   const ge3 = graduate.학문기초교양필수과목;
   const ge4 = graduate.균형교양필수영역;
   const temp = [...graduate.균형교양필수영역];
-  console.log(takenArea);
+  const takenGE1 = [];
+  const takenGE2 = [];
+  const takenGE3 = [];
+
   const recommendLecture = [];
 
   ge1.forEach((e) => {
@@ -108,6 +126,8 @@ exports.uploadExcel = async (req, res) => {
         name: e,
         comment: "공통교양필수과목"
       });
+    } else {
+      takenGE1.push(e);
     }
   });
 
@@ -119,6 +139,8 @@ exports.uploadExcel = async (req, res) => {
         name: e,
         comment: "교양선택필수과목"
       });
+    } else {
+      takenGE2.push(e);
     }
   });
 
@@ -130,26 +152,27 @@ exports.uploadExcel = async (req, res) => {
         name: e,
         comment: "학문기초교양필수과목"
       });
+    } else {
+      takenGE3.push(e);
     }
   });
 
-  console.log(temp, ge4);
-
-  takenArea.forEach((e)=>{
+  takenArea.forEach((e) => {
     const i = ge4.indexOf(e);
-    if(i >= 0){
-      ge4.splice(i,1);
+    if (i >= 0) {
+      ge4.splice(i, 1);
     }
-  })
+  });
 
-  console.log(temp, ge4);
-
-   await User.findOneAndUpdate(
+  await User.findOneAndUpdate(
     { studentId },
     {
       recommendLecture,
-      geArea:temp,
-      geAreaTaken:ge4
+      geArea: temp,
+      geAreaTaken: ge4,
+      takenGE1,
+      takenGE2,
+      takenGE3
     }
   );
 
