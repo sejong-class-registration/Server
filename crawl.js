@@ -3,7 +3,7 @@ const cheerio = require("cheerio");
 const axios = require("axios");
 
 async function crawling (id,pw){
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] });
   const page = await browser.newPage();
   // private
   
