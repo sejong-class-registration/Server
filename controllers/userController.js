@@ -4,30 +4,20 @@ const fs = require("fs");
 const { lectureMatching, areaMatching } = require("./lectureNameMatching.js");
 const Graduation = require("../models/graduateModel");
 
-exports.getAllUsers = (req, res) => {
-  res.status(500).json({
-    status: "error",
-    message: "This route is not yet defined!"
-  });
-};
-
-exports.getUser = (req, res) => {
-  res.status(500).json({
-    status: "error",
-    message: "This route is not yet defined!"
-  });
-};
-exports.createUser = (req, res) => {
-  res.status(500).json({
-    status: "error",
-    message: "This route is not yet defined!"
-  });
-};
-exports.updateUser = (req, res) => {
-  res.status(500).json({
-    status: "error",
-    message: "This route is not yet defined!"
-  });
+exports.updateUser = async(req, res) => {
+  const studentId = req.params.id;
+  const { name,userGrade,major,doubleMajor} = req.body; 
+  const user = await User.findOneAndUpdate(
+    { studentId },
+    {$set: {
+      name: name,
+      userGrade: userGrade,
+      major: major,
+      doubleMajor: doubleMajor
+      
+    } }
+  );  
+  res.status(201).json({ status: 'success'});
 };
 
 exports.uploadExcel = async (req, res) => {

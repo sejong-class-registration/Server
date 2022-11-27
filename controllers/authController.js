@@ -98,19 +98,20 @@ const signIn = async (req, res, next) => {
     next(err);
   }
 };
+///
 ////deleteAccount
 const deleteUser =async(req,res,next)=>{
   try{
     const { Id = null, password = null } = req.body; 
     if (!Id || !password) errorGenerator("Invalid inputs", 404); 
     const data=await User.findOne({studentId: Id});
-    if(!data) errorGenerator("존재하지 않는 회원입니다", 202);
+    if(!data) errorGenerator("존재하지 않는 회원입니다", 203);
     const passwordCheck = await bcrypt.compare(password, data.password);
-    if (!passwordCheck)errorGenerator("비밀번호가 틀렸습니다", 203);
+    if (!passwordCheck)errorGenerator("비밀번호가 틀렸습니다", 202);
     await User.deleteOne({studentId: Id})
     await Schedule.deleteMany({userId: Id})
     .then(()=>{
-      res.status(200).json({status: 'Succes', message:'회원탈퇴되었습니다'});
+      res.status(201).json({status: 'Succes', message:'회원탈퇴되었습니다'});
     })
   }catch(err){
   next(err);
