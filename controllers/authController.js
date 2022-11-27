@@ -98,6 +98,7 @@ const signIn = async (req, res, next) => {
     next(err);
   }
 };
+///
 ////deleteAccount
 const deleteUser =async(req,res,next)=>{
   try{

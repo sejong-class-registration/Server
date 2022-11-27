@@ -14,7 +14,6 @@ router.post("/signin",signIn);
 
 router
 .route('/:id')
-.get(userController.getUser)
 .patch(userController.updateUser)
 .delete(deleteUser);
 
