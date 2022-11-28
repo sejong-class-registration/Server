@@ -172,9 +172,9 @@ exports.uploadExcel = async (req, res) => {
     message: "upload excel!",
     data: {
       takenlectures,
-      totalCredit,
-      majorCredit,
-      user
+      geArea: temp,
+      geAreaTaken: ge4,
+      recommendLecture
     }
   });
 };
