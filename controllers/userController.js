@@ -94,11 +94,11 @@ exports.uploadExcel = async (req, res) => {
   const year = user.year;
   const major = user.major;
   console.log(year, major);
-  if (year * 1 < 2018) {
+  if (year * 1 < 2017) {
     res.status(200).json({
       code: 307,
       status: "fail",
-      err: "2018년도 이전 입학자 졸업요건은 등록되어있지 않습니다ㅠㅠ",
+      err: "2017년도 이전 입학자 졸업요건은 등록되어있지 않습니다ㅠㅠ",
     });
   }
   const graduate = await Graduation.findOne({ year, major });

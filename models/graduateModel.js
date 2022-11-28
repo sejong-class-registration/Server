@@ -37,9 +37,17 @@ const graduationSchema = new mongoose.Schema(
       type: [String],
       default: []
     },
+    공통교양필수학점 :{
+      type: Number,
+      default: 0
+    },
     균형교양필수영역: {
       type: [String],
       default: []
+    },
+    균형교양필수학점: {
+      type: Number,
+      default: 0
     },
     교양선택필수과목: {
       type: [String],
@@ -48,6 +56,10 @@ const graduationSchema = new mongoose.Schema(
     학문기초교양필수과목: {
       type: [String],
       default: []
+    },
+    학문기초교양필수학점: {
+      type: Number,
+      default: 0
     }
     // requiredCourses:{// 필수이수과목
     //   type: String,

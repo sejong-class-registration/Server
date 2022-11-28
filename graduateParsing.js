@@ -62,9 +62,12 @@ jsonData.map((data, index) => {
       mustMajorCredits: data["전공필수(A)"],
       selectiveMajorCredits: data["전공선택(B)"],
       공통교양필수과목: data["공통교양필수과목"].split(","),
+      공통교양필수학점: data["공통교양필수"],
       균형교양필수영역: data["균형교양필수영역"].split(","),
+      균형교양필수학점: data["균형교양필수"],
       교양선택필수과목: data["교양선택필수과목"].split(","),
-      학문기초교양필수과목: data["학문기초교양필수과목"].split(",")
+      학문기초교양필수과목: data["학문기초교양필수과목"].split(","),
+      학문기초교양필수학점: data["학문기초교양필수"]
     });
     try {
       newGraduation.save();
