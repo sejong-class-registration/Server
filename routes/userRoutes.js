@@ -14,7 +14,7 @@ router.post("/signin",signIn);
 
 router
 .route('/:id')
-.patch(userController.updateUser)
+.post(userController.updateUser)
 .delete(deleteUser);
 
 var storage = multer.diskStorage({
