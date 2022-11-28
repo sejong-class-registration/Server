@@ -4,20 +4,22 @@ const fs = require("fs");
 const { lectureMatching, areaMatching } = require("./lectureNameMatching.js");
 const Graduation = require("../models/graduateModel");
 
-exports.updateUser = async(req, res) => {
+exports.updateUser = async (req, res) => {
   const studentId = req.params.id;
-  const { name,userGrade,major,doubleMajor} = req.body; 
+  const { name, userGrade, major, doubleMajor } = req.body;
+  console.log(req.body);
   const user = await User.findOneAndUpdate(
     { studentId },
-    {$set: {
-      name: name,
-      userGrade: userGrade,
-      major: major,
-      doubleMajor: doubleMajor
-      
-    } }
-  );  
-  res.status(201).json({ status: 'success'});
+    {
+      $set: {
+        name: name,
+        userGrade: userGrade,
+        major: major,
+        doubleMajor: doubleMajor,
+      },
+    }
+  );
+  res.status(201).json({ status: "success", data:req.body});
 };
 
 exports.uploadExcel = async (req, res) => {
@@ -83,7 +85,7 @@ exports.uploadExcel = async (req, res) => {
       majorMustCredit,
       majorSelectCredit,
       mustMajorTaken,
-      selectMajorTaken
+      selectMajorTaken,
     }
   );
   const year = user.year;
@@ -93,7 +95,7 @@ exports.uploadExcel = async (req, res) => {
     res.status(200).json({
       code: 307,
       status: "fail",
-      err: "2018년도 이전 입학자 졸업요건은 등록되어있지 않습니다ㅠㅠ"
+      err: "2018년도 이전 입학자 졸업요건은 등록되어있지 않습니다ㅠㅠ",
     });
   }
   const graduate = await Graduation.findOne({ year, major });
@@ -109,25 +111,25 @@ exports.uploadExcel = async (req, res) => {
   const recommendLecture = [];
   ge1.forEach((e) => {
     const isTaken = takenlectures.includes(e);
-    
+
     if (!isTaken) {
       console.log(e);
       recommendLecture.push({
         name: e,
-        comment: "공통교양필수과목"
+        comment: "공통교양필수과목",
       });
     } else {
       takenGE1.push(e);
     }
   });
-  
+
   ge2.forEach((e) => {
     const isTaken = takenlectures.includes(e);
     if (!isTaken) {
       console.log(e);
       recommendLecture.push({
         name: e,
-        comment: "교양선택필수과목"
+        comment: "교양선택필수과목",
       });
     } else {
       takenGE2.push(e);
@@ -140,7 +142,7 @@ exports.uploadExcel = async (req, res) => {
       console.log(e);
       recommendLecture.push({
         name: e,
-        comment: "학문기초교양필수과목"
+        comment: "학문기초교양필수과목",
       });
     } else {
       takenGE3.push(e);
@@ -161,7 +163,7 @@ exports.uploadExcel = async (req, res) => {
       geAreaTaken: ge4,
       takenGE1,
       takenGE2,
-      takenGE3
+      takenGE3,
     }
   );
 
@@ -175,6 +177,6 @@ exports.uploadExcel = async (req, res) => {
       geAreaTaken: ge4,
       recommendLecture,
       totalCredit,
-    }
+    },
   });
 };
