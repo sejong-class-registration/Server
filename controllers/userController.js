@@ -107,9 +107,9 @@ exports.uploadExcel = async (req, res) => {
   const takenGE3 = [];
 
   const recommendLecture = [];
-
   ge1.forEach((e) => {
     const isTaken = takenlectures.includes(e);
+    
     if (!isTaken) {
       console.log(e);
       recommendLecture.push({
@@ -120,9 +120,9 @@ exports.uploadExcel = async (req, res) => {
       takenGE1.push(e);
     }
   });
-
+  
   ge2.forEach((e) => {
-    const isTaken = user.takenLectures.includes(e);
+    const isTaken = takenlectures.includes(e);
     if (!isTaken) {
       console.log(e);
       recommendLecture.push({
@@ -135,7 +135,7 @@ exports.uploadExcel = async (req, res) => {
   });
 
   ge3.forEach((e) => {
-    const isTaken = user.takenLectures.includes(e);
+    const isTaken = takenlectures.includes(e);
     if (!isTaken) {
       console.log(e);
       recommendLecture.push({
@@ -146,7 +146,6 @@ exports.uploadExcel = async (req, res) => {
       takenGE3.push(e);
     }
   });
-
   takenArea.forEach((e) => {
     const i = ge4.indexOf(e);
     if (i >= 0) {
@@ -174,7 +173,8 @@ exports.uploadExcel = async (req, res) => {
       takenlectures,
       geArea: temp,
       geAreaTaken: ge4,
-      recommendLecture
+      recommendLecture,
+      totalCredit,
     }
   });
 };
