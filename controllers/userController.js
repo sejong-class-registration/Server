@@ -5,6 +5,7 @@ const { lectureMatching, areaMatching } = require("./lectureNameMatching.js");
 const Graduation = require("../models/graduateModel");
 
 exports.updateUser = async (req, res) => {
+  console.log(1);
   try {
     const studentId = req.params.id;
     const { name, userGrade, major, doubleMajor } = req.body;
