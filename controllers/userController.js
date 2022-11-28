@@ -12,12 +12,10 @@ exports.updateUser = async (req, res) => {
     const user = await User.findOneAndUpdate(
       { studentId },
       {
-        $set: {
-          name: name,
-          userGrade: userGrade,
-          major: major,
-          doubleMajor: doubleMajor,
-        },
+          name,
+          userGrade,
+          major,
+          doubleMajor,
       }
     );
     res.status(201).json({ status: "success", data: req.body, user });
