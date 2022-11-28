@@ -5,21 +5,25 @@ const { lectureMatching, areaMatching } = require("./lectureNameMatching.js");
 const Graduation = require("../models/graduateModel");
 
 exports.updateUser = async (req, res) => {
-  const studentId = req.params.id;
-  const { name, userGrade, major, doubleMajor } = req.body;
-  console.log(req.body);
-  const user = await User.findOneAndUpdate(
-    { studentId },
-    {
-      $set: {
-        name: name,
-        userGrade: userGrade,
-        major: major,
-        doubleMajor: doubleMajor,
-      },
-    }
-  );
-  res.status(201).json({ status: "success", data:req.body});
+  try {
+    const studentId = req.params.id;
+    const { name, userGrade, major, doubleMajor } = req.body;
+    console.log(req.body);
+    const user = await User.findOneAndUpdate(
+      { studentId },
+      {
+        $set: {
+          name: name,
+          userGrade: userGrade,
+          major: major,
+          doubleMajor: doubleMajor,
+        },
+      }
+    );
+    res.status(201).json({ status: "success", data: req.body, user });
+  } catch (err) {
+    res.status(404).json({ message: err });
+  }
 };
 
 exports.uploadExcel = async (req, res) => {
