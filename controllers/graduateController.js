@@ -24,6 +24,8 @@ exports.getGraduation = async (req, res) => {
     const selectMajor = new Set(temp2);
     console.log(mustMajor);
     const response = {
+      totalCredit:graduate.totalCredits,
+      currentCredit:user.totalCredits,
       major: {
         mustTotalCredit: graduate.mustMajorCredits,
         mustCurrentCredit: user.majorMustCredit,
@@ -36,10 +38,15 @@ exports.getGraduation = async (req, res) => {
       },
       ge1: graduate.공통교양필수과목,
       takenGE1: user.takenGE1,
+      ge1TotalCredit: graduate.공통교양필수학점,
       ge2: graduate.교양선택필수과목,
       takenGE2: user.takenGE2,
       ge3: graduate.학문기초교양필수과목,
-      takenGE3: user.takenGE3
+      takenGE3: user.takenGE3,
+      ge3TotalCredit: graduate.학문기초교양필수학점,
+      geArea: user.geArea,
+      geAreaNotTaken: user.geAreaTaken,
+      geAreaTotalCredit: graduate.균형교양필수학점
     };
     console.log(response);
     res.status(200).json({
