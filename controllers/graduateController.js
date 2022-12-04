@@ -22,7 +22,7 @@ exports.getGraduation = async (req, res) => {
     temp2 = temp2.map((e) => e.name);
     const mustMajor = new Set(temp);
     const selectMajor = new Set(temp2);
-    console.log(mustMajor);
+    // console.log(mustMajor);
     const response = {
       totalCredit:graduate.totalCredits,
       currentCredit:user.totalCredits,
