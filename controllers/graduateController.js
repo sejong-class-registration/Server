@@ -5,11 +5,11 @@ const User = require("../models/userModel");
 exports.getGraduation = async (req, res) => {
   try {
     const user = await User.findOne(req.query);
+    console.log(req.query, user);
     const graduate = await Graduation.findOne({
-      year: user.year,
+      year: `20${user.studentId.slice(0,2)}`,
       major: user.major
     });
-
     let temp = await Lecture.find({
       department: user.major,
       classification: "전필"
