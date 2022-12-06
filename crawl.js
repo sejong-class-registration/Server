@@ -2,11 +2,14 @@ const puppeteer = require("puppeteer");
 const cheerio = require("cheerio");
 const axios = require("axios");
 
-async function crawling (id,pw){
-  const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] });
+async function crawling(id, pw) {
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ["--no-sandbox", "--disable-setuid-sandbox"]
+  });
   const page = await browser.newPage();
   // private
-  
+
   await page.setViewport({
     width: 1366,
     height: 768
@@ -30,16 +33,18 @@ async function crawling (id,pw){
   await page.click("#loginBtn");
 
   await page.waitForNavigation();
-  if(page.url()==="https://sjpt.sejong.ac.kr/main/view/Login/doSsoLogin.do?p="){
-    console.log('성공');
+  if (
+    page.url() === "https://sjpt.sejong.ac.kr/main/view/Login/doSsoLogin.do?p="
+  ) {
+    console.log("성공");
     await browser.close();
-    return(1);
-  }
-  else if(page.url()==="https://portal.sejong.ac.kr/jsp/login/login_action.jsp"){
-    console.log('실패');
+    return 1;
+  } else if (
+    page.url() === "https://portal.sejong.ac.kr/jsp/login/login_action.jsp"
+  ) {
+    console.log("실패");
     await browser.close();
-    return(0);
-
+    return 0;
   }
   /*await page.waitForSelector("#mf_wfrLeftTreeMenu_treLeftMenu_label_22");
   await page.waitForFunction(() => {
@@ -87,4 +92,4 @@ async function crawling (id,pw){
   }, 2000);*/
 }
 
-module.exports=crawling;
+module.exports = crawling;
