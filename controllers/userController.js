@@ -104,6 +104,7 @@ exports.uploadExcel = async (req, res) => {
   const graduate = await Graduation.findOne({ year, major });
   const ge1 = graduate.공통교양필수과목;
   const ge2 = graduate.교양선택필수과목;
+  console.log(ge2);
   const ge3 = graduate.학문기초교양필수과목;
   const ge4 = ['사상과역사','사회와문화','자연과과학기술','세계와지구촌','예술과체육','자기계발과진로'];
   const temp = [...ge4];
@@ -118,7 +119,7 @@ exports.uploadExcel = async (req, res) => {
       return e === t.name;
     });
 
-    if (isTaken === -1) {
+    if (isTaken == -1) {
       console.log(e);
       recommendLecture.push({
         name: e,
@@ -134,7 +135,8 @@ exports.uploadExcel = async (req, res) => {
     const isTaken = takenlectures.findIndex((t) => {
       return e === t.name;
     });
-    if (!isTaken) {
+    console.log(e, isTaken);
+    if (isTaken == -1) {
       console.log(e);
       recommendLecture.push({
         name: e,
@@ -144,13 +146,14 @@ exports.uploadExcel = async (req, res) => {
       takenGE2.push(takenlectures[isTaken]);
     }
   });
+  console.log(takenGE2);
 
   ge3.forEach((e) => {
     // const isTaken = takenlectures.includes(e);
     const isTaken = takenlectures.findIndex((t) => {
       return e === t.name;
     });
-    if (!isTaken) {
+    if (isTaken == -1) {
       console.log(e);
       recommendLecture.push({
         name: e,

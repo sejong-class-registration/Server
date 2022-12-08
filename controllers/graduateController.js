@@ -5,24 +5,31 @@ const User = require("../models/userModel");
 exports.getGraduation = async (req, res) => {
   try {
     const user = await User.findOne(req.query);
-    console.log(req.query, user);
     const graduate = await Graduation.findOne({
       year: `20${user.studentId.slice(0,2)}`,
       major: user.major
     });
     const geAreaCount = user.studentId.slice(0,2) * 1 < 22 ? 3 : 2; 
+    console.log(geAreaCount);
+    
     let ge1TakenCredit = 0;
     let ge2TakenCredit = 0;
     let ge3TakenCredit = 0;
+    console.log(user.takenGE1);
     user.takenGE1.forEach((e)=>{
       ge1TakenCredit += e.credit;
     });
+    console.log(user.takenGE2);
+    
     user.takenGE2.forEach((e)=>{
       ge2TakenCredit += e.credit;
     })
+    console.log(user.takenGE3);
+
     user.takenGE3.forEach((e)=>{
       ge3TakenCredit += e.credit;
     })
+    console.log(1);
     let temp = await Lecture.find({
       department: user.major,
       classification: "전필"
@@ -65,7 +72,7 @@ exports.getGraduation = async (req, res) => {
       geAreaNotTaken: user.geAreaTaken,
       geAreaCount
     };
-    console.log(response);
+    // console.log(response);
     res.status(200).json({
       status: "success",
       data: response
