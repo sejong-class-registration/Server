@@ -28,7 +28,7 @@ exports.updateUser = async (req, res) => {
 exports.uploadExcel = async (req, res) => {
   let path = req.file.path;
   const excelFile = Xlsx.readFile(path);
-  // console.log(req.file);
+  console.log(req.file);
   const sheetName = excelFile.SheetNames[0];
   const firstSheet = excelFile.Sheets[sheetName];
   const jsonData = Xlsx.utils.sheet_to_json(firstSheet, { defval: "" });
