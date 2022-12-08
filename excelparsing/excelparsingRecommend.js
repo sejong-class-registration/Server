@@ -6,6 +6,7 @@ const Crawling = require("../models/crawlingModel");
 dotenv.config({ path: "../config.env" });
 
 const DB = process.env.DATABASE;
+// console.log(1)
 
 const db = mongoose
   .connect(DB, {
