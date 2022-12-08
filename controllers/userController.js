@@ -13,10 +13,10 @@ exports.updateUser = async (req, res) => {
     const user = await User.findOneAndUpdate(
       { studentId },
       {
-          name,
-          userGrade,
-          major,
-          doubleMajor,
+        name,
+        userGrade,
+        major,
+        doubleMajor,
       }
     );
     res.status(201).json({ status: "success", data: req.body, user });
@@ -58,7 +58,7 @@ exports.uploadExcel = async (req, res) => {
       if (userCredit === "NP" || userCredit === "F" || userCredit === "FA") {
         // 학점 이수 실패
       } else {
-        takenlectures.push(name);
+        takenlectures.push({ name, credit });
         takenArea.add(area);
         if (area === "융합과창업") {
           takenArea.add("자기계발과진로");
@@ -105,29 +105,35 @@ exports.uploadExcel = async (req, res) => {
   const ge1 = graduate.공통교양필수과목;
   const ge2 = graduate.교양선택필수과목;
   const ge3 = graduate.학문기초교양필수과목;
-  const ge4 = graduate.균형교양필수영역;
-  const temp = [...graduate.균형교양필수영역];
+  const ge4 = ['사상과역사','사회와문화','자연과과학기술','세계와지구촌','예술과체육','자기계발과진로'];
+  const temp = [...ge4];
   const takenGE1 = [];
   const takenGE2 = [];
   const takenGE3 = [];
 
   const recommendLecture = [];
   ge1.forEach((e) => {
-    const isTaken = takenlectures.includes(e);
+    // const isTaken = takenlectures.includes(e);
+    const isTaken = takenlectures.findIndex((t) => {
+      return e === t.name;
+    });
 
-    if (!isTaken) {
+    if (isTaken === -1) {
       console.log(e);
       recommendLecture.push({
         name: e,
         comment: "공통교양필수과목",
       });
     } else {
-      takenGE1.push(e);
+      takenGE1.push(takenlectures[isTaken]);
     }
   });
 
   ge2.forEach((e) => {
-    const isTaken = takenlectures.includes(e);
+    // const isTaken = takenlectures.includes(e);
+    const isTaken = takenlectures.findIndex((t) => {
+      return e === t.name;
+    });
     if (!isTaken) {
       console.log(e);
       recommendLecture.push({
@@ -135,12 +141,15 @@ exports.uploadExcel = async (req, res) => {
         comment: "교양선택필수과목",
       });
     } else {
-      takenGE2.push(e);
+      takenGE2.push(takenlectures[isTaken]);
     }
   });
 
   ge3.forEach((e) => {
-    const isTaken = takenlectures.includes(e);
+    // const isTaken = takenlectures.includes(e);
+    const isTaken = takenlectures.findIndex((t) => {
+      return e === t.name;
+    });
     if (!isTaken) {
       console.log(e);
       recommendLecture.push({
@@ -148,9 +157,12 @@ exports.uploadExcel = async (req, res) => {
         comment: "학문기초교양필수과목",
       });
     } else {
-      takenGE3.push(e);
+      takenGE3.push(takenlectures[isTaken]);
     }
   });
+
+  console.log(takenArea, ge4);
+
   takenArea.forEach((e) => {
     const i = ge4.indexOf(e);
     if (i >= 0) {
@@ -177,7 +189,7 @@ exports.uploadExcel = async (req, res) => {
     data: {
       takenlectures,
       geArea: temp,
-      geAreaTaken: ge4,
+      geAreaToTake: ge4,
       recommendLecture,
       totalCredit,
     },

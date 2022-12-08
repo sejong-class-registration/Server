@@ -153,11 +153,10 @@ exports.addLectureOnSchedule = async (req, res) => {
         scheduleId,
         totalCredit: totalCredit + currentLectureCredit,
         schedule: scheduleArray
+      },
+      {
+        new: true,
       }
-      // {
-      //   new: true,
-      //   runValidators: true,
-      // }
     );
 
     res.status(201).json({

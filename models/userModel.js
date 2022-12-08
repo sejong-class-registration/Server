@@ -34,19 +34,31 @@ const userSchema = new mongoose.Schema({
     default: ""
   },
   takenLectures: {
-    type: [String],
+    type: [{
+      name:String,
+      credit:Number
+    }],
     default: []
   },
   takenGE1: {
-    type: [String],
+    type: [{
+      name:String,
+      credit:Number
+    }],
     default: []
   },
   takenGE2: {
-    type: [String],
+    type: [{
+      name:String,
+      credit:Number
+    }],
     default: []
   },
   takenGE3: {
-    type: [String],
+    type: [{
+      name:String,
+      credit:Number
+    }],
     default: []
   },
   doubleMajor: {

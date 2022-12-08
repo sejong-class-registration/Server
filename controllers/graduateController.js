@@ -10,6 +10,19 @@ exports.getGraduation = async (req, res) => {
       year: `20${user.studentId.slice(0,2)}`,
       major: user.major
     });
+    const geAreaCount = user.studentId.slice(0,2) * 1 < 22 ? 3 : 2; 
+    let ge1TakenCredit = 0;
+    let ge2TakenCredit = 0;
+    let ge3TakenCredit = 0;
+    user.takenGE1.forEach((e)=>{
+      ge1TakenCredit += e.credit;
+    });
+    user.takenGE2.forEach((e)=>{
+      ge2TakenCredit += e.credit;
+    })
+    user.takenGE3.forEach((e)=>{
+      ge3TakenCredit += e.credit;
+    })
     let temp = await Lecture.find({
       department: user.major,
       classification: "전필"
@@ -38,15 +51,19 @@ exports.getGraduation = async (req, res) => {
       },
       ge1: graduate.공통교양필수과목,
       takenGE1: user.takenGE1,
+      ge1TakenCredit,
       ge1TotalCredit: graduate.공통교양필수학점,
       ge2: graduate.교양선택필수과목,
       takenGE2: user.takenGE2,
+      ge2TakenCredit,
+      ge2TotalCredit: graduate.균형교양필수학점,
       ge3: graduate.학문기초교양필수과목,
       takenGE3: user.takenGE3,
+      ge3TakenCredit,
       ge3TotalCredit: graduate.학문기초교양필수학점,
       geArea: user.geArea,
       geAreaNotTaken: user.geAreaTaken,
-      geAreaTotalCredit: graduate.균형교양필수학점
+      geAreaCount
     };
     console.log(response);
     res.status(200).json({
