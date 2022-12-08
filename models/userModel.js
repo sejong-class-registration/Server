@@ -105,6 +105,10 @@ const userSchema = new mongoose.Schema({
   geAreaTaken: {
     type: [String],
     default: []
+  },
+  geAreaTakenCredit:{
+    type: Number,
+    default: 0
   }
 });
 
