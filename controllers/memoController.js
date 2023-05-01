@@ -3,8 +3,8 @@ const User = require("../models/userModel");
 // 메모장 조회
 exports.getMemo = async (req, res, next) => {
   try {
-    const { userId, semester } = req.params;
-    const user = await User.findById(userId);
+    const { studentId, semester } = req.params;
+    const user = await User.findOne({ studentId });
     const memo = user.memo.find((memo) => memo.semester === semester);
 
     if (!memo) {
@@ -25,8 +25,8 @@ exports.getMemo = async (req, res, next) => {
 // 메모장 생성
 exports.createMemo = async (req, res, next) => {
   try {
-    const { userId, semester } = req.params;
-    const user = await User.findById(userId);
+    const { studentId, semester } = req.params;
+    const user = await User.findOne({ studentId });
 
     const memoExists = user.memo.find((memo) => memo.semester === semester);
 
@@ -56,9 +56,9 @@ exports.createMemo = async (req, res, next) => {
 // 메모 내용 추가
 exports.addMemoContent = async (req, res, next) => {
   try {
-    const { userId, semester } = req.params;
+    const { studentId, semester } = req.params;
     const { content } = req.body;
-    const user = await User.findById(userId);
+    const user = await User.findOne({ studentId });
 
     const memo = user.memo.find((memo) => memo.semester.equals(semester));
 
