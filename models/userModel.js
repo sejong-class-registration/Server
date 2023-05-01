@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { memoSchema } = require("./memoModel");
 // const validator = require('validator');
 // a
 
@@ -8,108 +9,117 @@ const userSchema = new mongoose.Schema({
     required: [true, "학번이 필요합니다"],
     minlength: 2,
     maxlength: 50,
-    default: 0
+    default: 0,
   },
   name: {
     type: String,
     required: [true, "학생이름이 필요합니다"],
     minlength: 2,
     unique: false,
-    default: 0
+    default: 0,
   },
   password: {
     type: String,
-    required: [true, "비밀번호가 필요합니다"]
+    required: [true, "비밀번호가 필요합니다"],
   },
   userGrade: {
     type: Number,
     required: [true, "학년이 필요합니다"],
-    default: 0
+    default: 0,
   },
   major: {
     type: String,
     required: [true, "전공이 필요합니다"],
     minlength: 2,
     maxlength: 50,
-    default: ""
+    default: "",
   },
   takenLectures: {
-    type: [{
-      name:String,
-      credit:Number
-    }],
-    default: []
+    type: [
+      {
+        name: String,
+        credit: Number,
+      },
+    ],
+    default: [],
   },
   takenGE1: {
-    type: [{
-      name:String,
-      credit:Number
-    }],
-    default: []
+    type: [
+      {
+        name: String,
+        credit: Number,
+      },
+    ],
+    default: [],
   },
   takenGE2: {
-    type: [{
-      name:String,
-      credit:Number
-    }],
-    default: []
+    type: [
+      {
+        name: String,
+        credit: Number,
+      },
+    ],
+    default: [],
   },
   takenGE3: {
-    type: [{
-      name:String,
-      credit:Number
-    }],
-    default: []
+    type: [
+      {
+        name: String,
+        credit: Number,
+      },
+    ],
+    default: [],
   },
   doubleMajor: {
     type: String,
-    default: ""
+    default: "",
   },
   totalCredits: {
     type: Number,
-    default: 0
+    default: 0,
   },
   recommendLecture: {
     type: [
       {
         name: String,
-        comment: String
-      }
+        comment: String,
+      },
     ],
-    default: []
+    default: [],
   },
   majorCredits: {
     type: Number,
-    default: 0
+    default: 0,
   },
   majorMustCredit: {
     type: Number,
-    default: 0
+    default: 0,
   },
   majorSelectCredit: {
     type: Number,
-    default: 0
+    default: 0,
   },
   mustMajorTaken: {
     type: [String],
-    default: []
+    default: [],
   },
   selectMajorTaken: {
     type: [String],
-    default: []
+    default: [],
   },
   geArea: {
     type: [String],
-    default: []
+    default: [],
   },
   geAreaTaken: {
     type: [String],
-    default: []
+    default: [],
   },
-  geAreaTakenCredit:{
+  geAreaTakenCredit: {
     type: Number,
-    default: 0
-  }
+    default: 0,
+  },
+  memos: [memoSchema], // 메모장 필드 추가
 });
 
 userSchema.virtual("year").get(function () {

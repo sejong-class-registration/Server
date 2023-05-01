@@ -8,26 +8,25 @@ const Lecture = require("../models/lectureModel");
 dotenv.config({ path: "../config.env" });
 
 const DB = process.env.DATABASE;
-
 const db = mongoose
   .connect(DB, {
     useNewUrlParser: true,
   })
   .then((con) => {
-    // console.log(con.connections);
-    // console.log("DB connection successful!");
+     console.log(con.connections);
+     console.log("DB connection successful!");
   });
 
 const Xlsx = require("xlsx");
-const excelFile = Xlsx.readFile("../public/nodeExcelComputerSC.xlsx");
+const excelFile = Xlsx.readFile("../public/강의시간표_2023-04-03 (1).xlsx");
 const sheetName = excelFile.SheetNames[0];
 const firstSheet = excelFile.Sheets[sheetName];
 const jsonData = Xlsx.utils.sheet_to_json(firstSheet, { defval: "" });
 
-// console.log(jsonData);
+ console.log(jsonData);
 
-// const data = JSON.stringify(jsonData);
-// console.log(data);
+ const data = JSON.stringify(jsonData);
+ console.log(data);
 
 jsonData.map((data, index) => {
   if (index < 3) {
@@ -46,13 +45,13 @@ jsonData.map((data, index) => {
       room: data.__EMPTY_13,
       dayAndTime: data.__EMPTY_12,
       creditExchange: data.__EMPTY_16,
-      notice: data.__EMPTY_17
+      notice: data.__EMPTY_17,
     });
-    // console.log(newLecture);
+     console.log(newLecture);
     try {
       newLecture.save();
     } catch (err) {
-      // console.log(err);
+       console.log(err);
     }
   }
 });
