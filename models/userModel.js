@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { memoSchema } = require("./memoModel");
 // const validator = require('validator');
 // a
 
@@ -119,7 +118,118 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  memos: [memoSchema], // 메모장 필드 추가
+  memo: [
+    {
+      content: {
+        type: [String],
+        required: true,
+      },
+      semester: {
+        type: String,
+        default: 1,
+      },
+    },
+    {
+      content: {
+        type: [String],
+        required: true,
+      },
+      semester: {
+        type: String,
+        default: 2,
+      },
+    },
+    {
+      content: {
+        type: [String],
+        required: true,
+      },
+      semester: {
+        type: String,
+        default: 3,
+      },
+    },
+    {
+      content: {
+        type: [String],
+        required: true,
+      },
+      semester: {
+        type: String,
+        default: 4,
+      },
+    },
+    {
+      content: {
+        type: [String],
+        required: true,
+      },
+      semester: {
+        type: String,
+        default: 5,
+      },
+    },
+    {
+      content: {
+        type: [String],
+        required: true,
+      },
+      semester: {
+        type: String,
+        default: 6,
+      },
+    },
+    {
+      content: {
+        type: [String],
+        required: true,
+      },
+      semester: {
+        type: String,
+        default: 7,
+      },
+    },
+    {
+      content: {
+        type: [String],
+        required: true,
+      },
+      semester: {
+        type: String,
+        default: 8,
+      },
+    },
+    {
+      content: {
+        type: [String],
+        required: true,
+      },
+      semester: {
+        type: String,
+        default: 9,
+      },
+    },
+    {
+      content: {
+        type: [String],
+        required: true,
+      },
+      semester: {
+        type: String,
+        default: 10,
+      },
+    },
+    {
+      content: {
+        type: [String],
+        required: true,
+      },
+      semester: {
+        type: String,
+        default: 11,
+      },
+    },
+  ], // 메모장 필드 추가
 });
 
 userSchema.virtual("year").get(function () {
