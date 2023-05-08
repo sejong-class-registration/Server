@@ -4,12 +4,12 @@ const mongoose = require("mongoose");
 const lectureSchema = new mongoose.Schema(
   {
     year: {
-      type: Number,
-      default: 2022,
+      type: String,
+      default: "2022",
     },
     semester: {
-      type: Number,
-      default: 2,
+      type: String,
+      default: "2",
     },
     name: {
       type: String,
