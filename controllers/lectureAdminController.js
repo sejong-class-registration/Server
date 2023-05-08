@@ -30,7 +30,7 @@ exports.getLectures = async (req, res) => {
   }
 };
 
-exports.deleteLectures = async (req, res) => {
+exports.deleteLectures = async (req, res, next) => {
   try {
     const { lectureYear = null, lectureSemster = null } = req.body;
     const data = await Lecture.findOne(
@@ -45,9 +45,6 @@ exports.deleteLectures = async (req, res) => {
         .json({ status: "Succes", message: "시간표가 삭제되었습니다." });
     });
   } catch (err) {
-    res.status(err.statusCode || 404).json({
-      status: "fail",
-      message: err.message,
-    });
+    next(err);
   }
 };
