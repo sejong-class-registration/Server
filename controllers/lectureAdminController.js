@@ -45,9 +45,9 @@ exports.deleteLectures = async (req, res) => {
         .json({ status: "Succes", message: "시간표가 삭제되었습니다." });
     });
   } catch (err) {
-    res.status(404).json({
+    res.status(err.statusCode || 404).json({
       status: "fail",
-      message: err,
+      message: err.message,
     });
   }
 };
