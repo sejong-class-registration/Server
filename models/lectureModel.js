@@ -3,6 +3,14 @@ const mongoose = require("mongoose");
 
 const lectureSchema = new mongoose.Schema(
   {
+    year: {
+      type: Number,
+      default: 2022,
+    },
+    semester: {
+      type: Number,
+      default: 2,
+    },
     name: {
       type: String,
       default: "미정",
@@ -78,8 +86,8 @@ const lectureSchema = new mongoose.Schema(
     },
     area: {
       type: String,
-      default: '미정'
-    }
+      default: "미정",
+    },
   },
   {
     toJSON: { virtuals: true },

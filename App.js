@@ -5,6 +5,7 @@ const lectureRouter = require("./routes/lectureRoute");
 const memoRouter = require("./routes/memoRoute");
 const scheduleRouter = require("./routes/scheduleRoute");
 const graduationRouter = require("./routes/graduateRoute");
+const adminRouter = require("./routes/adminRoute");
 
 const AppError = require("./utils/AppError");
 
@@ -36,6 +37,7 @@ app.use("/lectures", lectureRouter);
 app.use("/schedules", scheduleRouter);
 app.use("/users", userRouter);
 app.use("/graduation", graduationRouter);
+app.use("/admin", adminRouter);
 app.use("/memo", memoRouter);
 app.all("*", (req, res, next) => {
   next(new AppError(`${req.originalUrl} is not found in server!`, 404));
