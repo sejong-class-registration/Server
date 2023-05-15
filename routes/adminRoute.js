@@ -17,7 +17,6 @@ var storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-
 router.route("/lectures").post(upload.single("xlsx"), saveLectures);
 
 module.exports = router;

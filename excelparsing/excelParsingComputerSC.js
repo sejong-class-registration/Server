@@ -65,3 +65,4 @@ const saveLectures = async (req, res) => {
     });
   }
 };
+module.exports = saveLectures;
