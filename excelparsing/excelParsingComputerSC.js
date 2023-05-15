@@ -5,7 +5,7 @@ const Xlsx = require("xlsx");
 
 const saveLectures = async (req, res, next) => {
   const { lectureYear = null, lectureSemester = null } = req.body;
-
+  console.log("year:" + lectureYear + "&& semester:" + lectureSemester);
   // 엑셀 파일 읽기
   let path = req.file.path;
   const excelFile = Xlsx.readFile(path);
@@ -13,6 +13,7 @@ const saveLectures = async (req, res, next) => {
   const firstSheet = excelFile.Sheets[sheetName];
   const jsonData = Xlsx.utils.sheet_to_json(firstSheet, { defval: "" });
   tils.sheet_to_json(firstSheet, { defval: "" });
+  console.log("excel read successfully!");
 
   // 데이터 저장
   try {
