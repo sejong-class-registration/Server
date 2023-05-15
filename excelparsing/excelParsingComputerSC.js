@@ -28,7 +28,6 @@ const saveLectures = async (req, res) => {
       .filter((data, index) => {
         // 필요없는 데이터는 건너뜀
         if (
-          index < 3 ||
           data.__EMPTY === "개설학과전공" ||
           data.__EMPTY_6 === "개설강좌 리스트" ||
           data.__EMPTY_3 === ""
