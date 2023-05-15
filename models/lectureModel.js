@@ -5,11 +5,9 @@ const lectureSchema = new mongoose.Schema(
   {
     year: {
       type: String,
-      default: "2022",
     },
     semester: {
       type: String,
-      default: "2",
     },
     name: {
       type: String,

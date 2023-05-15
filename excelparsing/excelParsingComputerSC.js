@@ -1,57 +1,75 @@
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const app = require("../App");
 const Lecture = require("../models/lectureModel");
-
-// MongoDB 랑 연결 후, config.env 채우고 여기 주석 풀기
-
-dotenv.config({ path: "../config.env" });
-
-const DB = process.env.DATABASE;
-const db = mongoose
-  .connect(DB, {
-    useNewUrlParser: true,
-  })
-  .then((con) => {
-     console.log(con.connections);
-     console.log("DB connection successful!");
-  });
-
 const Xlsx = require("xlsx");
-const excelFile = Xlsx.readFile("../public/강의시간표_2023-04-03 (1).xlsx");
-const sheetName = excelFile.SheetNames[0];
-const firstSheet = excelFile.Sheets[sheetName];
-const jsonData = Xlsx.utils.sheet_to_json(firstSheet, { defval: "" });
 
- console.log(jsonData);
+const saveLectures = async (req, res, next) => {
+  const { lectureYear = null, lectureSemester = null } = req.body;
 
- const data = JSON.stringify(jsonData);
- console.log(data);
+  // 엑셀 파일 읽기
+  let path = req.file.path;
+  const excelFile = Xlsx.readFile(path);
+  const sheetName = excelFile.SheetNames[0];
+  const firstSheet = excelFile.Sheets[sheetName];
+  const jsonData = Xlsx.utils.sheet_to_json(firstSheet, { defval: "" });
+  tils.sheet_to_json(firstSheet, { defval: "" });
 
-jsonData.map((data, index) => {
-  if (index < 3) {
-    // console.log('empty');
-  } else {
-    const newLecture = new Lecture({
-      name: data.__EMPTY_3,
-      lectureId: data.__EMPTY_1,
-      distrib: data.__EMPTY_2,
-      classification: data.__EMPTY_5,
-      english: data.__EMPTY_4,
-      credit: data.__EMPTY_7,
-      lectureGrade: data.__EMPTY_8,
-      department: data.__EMPTY,
-      profName: data.__EMPTY_11,
-      room: data.__EMPTY_13,
-      dayAndTime: data.__EMPTY_12,
-      creditExchange: data.__EMPTY_16,
-      notice: data.__EMPTY_17,
+  // 데이터 저장
+  try {
+    await mongoose.connect(process.env.DATABASE, {
+      useNewUrlParser: true,
     });
-     console.log(newLecture);
-    try {
-      newLecture.save();
-    } catch (err) {
-       console.log(err);
-    }
+
+    const newLectures = jsonData
+      .filter((data, index) => {
+        // 필요없는 데이터는 건너뜀
+        if (
+          index < 3 ||
+          data.__EMPTY === "개설학과전공" ||
+          data.__EMPTY_6 === "개설강좌 리스트" ||
+          data.__EMPTY_3 === ""
+        ) {
+          return false;
+        }
+        return true;
+      })
+      .map((data) => {
+        return new Lecture({
+          year: lectureYear,
+          semester: lectureSemester,
+          name: data.__EMPTY_3,
+          lectureId: data.__EMPTY_1,
+          distrib: data.__EMPTY_2,
+          classification: data.__EMPTY_5,
+          english: data.__EMPTY_4,
+          credit: data.__EMPTY_7,
+          lectureGrade: data.__EMPTY_8,
+          department: data.__EMPTY,
+          profName: data.__EMPTY_11,
+          room: data.__EMPTY_13,
+          dayAndTime: data.__EMPTY_12,
+          creditExchange: data.__EMPTY_16,
+          notice: data.__EMPTY_17,
+        });
+      });
+
+    const result = await Lecture.insertMany(newLectures);
+    console.log(`Lectures saved successfully! Count: ${result.length}`);
+
+    await mongoose.disconnect();
+
+    res.status(200).json({
+      status: "success",
+      message: `Lectures saved successfully! Count: ${result.length}`,
+    });
+  } catch (err) {
+    console.log(err);
+
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while saving lectures.",
+    });
   }
-});
+};
+
+module.exports = saveLectures;
