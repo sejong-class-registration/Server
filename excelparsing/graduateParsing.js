@@ -34,8 +34,7 @@ const saveGraduations = async (req, res) => {
         if (data["입학년도"] != graduationYear) {
           errorGenerator("입학년도가 다릅니다", 203);
           return false;
-        }
-        return index >= 0;
+        } else if (data["입학년도"]) return index >= 0;
       })
       .map((data) => {
         data["공통교양필수과목"] = data["공통교양필수과목"].replace(" ", "");
@@ -70,7 +69,13 @@ const saveGraduations = async (req, res) => {
     });
   } catch (err) {
     console.log(err);
-    res.status(500).json({
+    if (err.statusCode && err.statusCode === 203) {
+      return res.status(203).json({
+        status: "error",
+        message: err.message,
+      });
+    }
+    return res.status(500).json({
       status: "error",
       message: "An error occurred while saving graduations.",
     });

@@ -5,6 +5,35 @@ const errorGenerator = (message, statusCode = 500) => {
   error.statusCode = statusCode;
   throw error;
 };
+const findGraduationByMajor = async (req, res) => {
+  try {
+    const { major } = req.body;
+
+    await mongoose.connect(process.env.DATABASE, {
+      useNewUrlParser: true,
+    });
+
+    const graduation = await Graduation.findOne({ major });
+
+    if (!graduation) {
+      return res.status(404).json({
+        status: "error",
+        message: "Graduation data not found for the given major.",
+      });
+    }
+
+    res.status(200).json({
+      status: "success",
+      data: graduation,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching graduation data.",
+    });
+  }
+};
 
 const deleteGraduation = async (req, res, next) => {
   try {
