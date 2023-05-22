@@ -2,7 +2,7 @@ const Graduation = require("../models/graduateModel");
 const Lecture = require("../models/lectureModel");
 const User = require("../models/userModel");
 
-exports.getGraduation = async (req, res) => {
+const getGraduation = async (req, res) => {
   try {
     const user = await User.findOne(req.query);
     const graduate = await Graduation.findOne({
@@ -84,3 +84,5 @@ exports.getGraduation = async (req, res) => {
     });
   }
 };
+
+module.exports = getGraduation;

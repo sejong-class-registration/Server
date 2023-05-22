@@ -1,4 +1,4 @@
-const Lecture = require("../models/lectureModel");
+const Lecture = require("../../models/lectureModel");
 
 const errorGenerator = (message, statusCode = 500) => {
   const error = new Error(message);
@@ -13,24 +13,24 @@ const sorting = (query, queryString) => {
   return query;
 };
 
-exports.getLectures = async (req, res) => {
-  try {
-    const query = await sorting(Lecture.find(req.query), req.query);
+// exports.getLectures = async (req, res) => {
+//   try {
+//     const query = await sorting(Lecture.find(req.query), req.query);
 
-    res.status(200).json({
-      status: "success",
-      results: query.length,
-      data: { lectures: query },
-    });
-  } catch (err) {
-    res.status(404).json({
-      status: "fail",
-      message: err,
-    });
-  }
-};
+//     res.status(200).json({
+//       status: "success",
+//       results: query.length,
+//       data: { lectures: query },
+//     });
+//   } catch (err) {
+//     res.status(404).json({
+//       status: "fail",
+//       message: err,
+//     });
+//   }
+// };
 
-exports.deleteLectures = async (req, res, next) => {
+const deleteLectures = async (req, res, next) => {
   try {
     const { lectureYear = null, lectureSemster = null } = req.body;
     const data = await Lecture.findOne(
@@ -48,3 +48,5 @@ exports.deleteLectures = async (req, res, next) => {
     next(err);
   }
 };
+
+module.exports = deleteLectures;

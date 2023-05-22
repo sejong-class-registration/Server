@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const User = require("../models/userModel");
+const User = require("../../models/userModel");
 
 const errorGenerator = (message, statusCode = 500) => {
   const error = new Error(message);
@@ -25,4 +25,4 @@ const signIn = async (req, res, next) => {
     next(err);
   }
 };
-module.exports = { signIn };
+module.exports = signIn;

@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const app = require("../App");
 const Lecture = require("../models/lectureModel");
 const Xlsx = require("xlsx");
 // MongoDB 랑 연결 후, config.env 채우고 여기 주석 풀기
