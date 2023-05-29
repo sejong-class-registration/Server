@@ -5,32 +5,27 @@ const errorGenerator = (message, statusCode = 500) => {
   error.statusCode = statusCode;
   throw error;
 };
-const findGraduationByMajor = async (req, res) => {
+
+const sorting = (query, queryString) => {
+  if (queryString.sort) {
+    query = query.sort(queryString.sort);
+  }
+  return query;
+};
+
+const getSomeGraduation = async (req, res) => {
   try {
-    const { major } = req.body;
-
-    await mongoose.connect(process.env.DATABASE, {
-      useNewUrlParser: true,
-    });
-
-    const graduation = await Graduation.findOne({ major });
-
-    if (!graduation) {
-      return res.status(404).json({
-        status: "error",
-        message: "Graduation data not found for the given major.",
-      });
-    }
+    const query = await sorting(Graduation.find(req.query), req.query);
 
     res.status(200).json({
       status: "success",
-      data: graduation,
+      results: query.length,
+      data: { lectures: query },
     });
   } catch (err) {
-    console.log(err);
-    res.status(500).json({
-      status: "error",
-      message: "An error occurred while fetching graduation data.",
+    res.status(404).json({
+      status: "fail",
+      message: err,
     });
   }
 };
@@ -49,4 +44,4 @@ const deleteGraduation = async (req, res, next) => {
     next(err);
   }
 };
-module.exports = deleteGraduation;
+module.exports = { deleteGraduation, getSomeGraduation };

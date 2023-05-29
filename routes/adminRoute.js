@@ -1,7 +1,10 @@
 const express = require("express");
 const deleteLectures = require("../controllers/adminControllers/lectureAdminController");
 const signIn = require("../controllers/adminControllers/adminAuthController.js");
-const deleteGraduation = require("../controllers/adminControllers/graduateAdminController");
+const {
+  deleteGraduation,
+  getSomeGraduation,
+} = require("../controllers/adminControllers/graduateAdminController");
 const saveLectures = require("../excelparsing/excelParsingLectures.js");
 const saveGraduations = require("../excelparsing/graduateParsing");
 const multer = require("multer");
@@ -10,6 +13,7 @@ const router = express.Router();
 router.route("/").post(signIn);
 router.route("/lectures").delete(deleteLectures);
 router.route("/graduation").delete(deleteGraduation);
+router.route("/graduation").get(getSomeGraduation);
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "uploads/"); // 파일 경로 지정
