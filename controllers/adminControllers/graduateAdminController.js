@@ -6,10 +6,8 @@ const errorGenerator = (message, statusCode = 500) => {
   throw error;
 };
 
-const sorting = (query, queryString) => {
-  if (queryString.sort) {
-    query = query.sort(queryString.sort);
-  }
+const sorting = (query) => {
+  query = query.sort({ year: -1 });
   return query;
 };
 
@@ -20,7 +18,7 @@ const getSomeGraduation = async (req, res) => {
     res.status(200).json({
       status: "success",
       results: query.length,
-      data: { lectures: query },
+      data: { graduation: query },
     });
   } catch (err) {
     res.status(404).json({
