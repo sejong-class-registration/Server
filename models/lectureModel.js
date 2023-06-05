@@ -98,10 +98,21 @@ lectureSchema.virtual("time").get(function () {
   const time = this.dayAndTime;
   let startTime = time.slice(length - 11, length - 6);
   let endTime = time.slice(length - 5, length);
-  const day = length === 12 ? [time[0]] : [time[0], time[1]];
+  let day;
+
+  if (length === 12) {
+    day = [time[0]];
+  } else if (length === 13) {
+    day = [time[0], time[1]];
+  } else if (length === 16) {
+    day = [time[0], time[1], time[2], time[3], time[4]];
+  } else {
+    day = [];
+  }
 
   startTime = startTime.slice(0, 2) * 60 + startTime.slice(3, 5) * 1;
   endTime = endTime.slice(0, 2) * 60 + endTime.slice(3, 5) * 1;
+
   return { startTime, endTime, day };
 });
 const Lecture = mongoose.model("Lecture", lectureSchema);
