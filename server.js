@@ -8,17 +8,18 @@ dotenv.config({ path: "./config.env" });
 
 const DB = process.env.DATABASE;
 
-
 mongoose
   .connect(DB, {
     useNewUrlParser: true,
   })
-  .then((con) => {
+  .then(() => {
     // console.log(con.connections);
     console.log("DB connection successful!");
+    const port = process.env.PORT || 3000;
+    app.listen(port, () => {
+      console.log(`App running on port ${port}`);
+    });
+  })
+  .catch((err) => {
+    console.log(err); // 연결 오류 출력
   });
-
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`App running on port ${port}`);
-});
